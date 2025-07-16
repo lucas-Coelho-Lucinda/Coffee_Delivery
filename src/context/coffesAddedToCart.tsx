@@ -1,6 +1,6 @@
 import { ReactNode, useState, createContext, useCallback } from "react";
 import { CoffeList, FormOrderSend, totalCalculeOrder } from "../Types/coffe";
-import { CalculateValuesOfCoffeForAllItens } from "../functions/result";
+import { CalculateValuesOfCoffeForAllItens } from "../Operations";
 
 interface CoffesAddedToCartContextProps {
   numberOfCoffeesInTheCart: number;

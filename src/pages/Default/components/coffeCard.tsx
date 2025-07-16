@@ -1,6 +1,7 @@
 import React from "react";
-import { CoffeList } from "../../../Types/coffe";
+import { propsCoffeCard } from "../types";
 import { ShoppingCart } from "@phosphor-icons/react";
+
 import {
   TitleCoffee,
   OptionOfMenu,
@@ -21,16 +22,10 @@ import {
   TextDescriptionOfDevaultValue,
 } from "../sytle";
 
-interface propsCoffeCard {
-  coffe: CoffeList;
-  onAdd: (idCoffeSelected: string) => void;
-  onChangeAmount: (idCoffeSelected: string, increase: boolean) => void;
-}
-
 const CoffeeCard = React.memo(
   ({ coffe, onAdd, onChangeAmount }: propsCoffeCard) => {
     return (
-      <OptionOfMenu key={coffe.id} is_selected={coffe.is_selected}>
+      <OptionOfMenu key={coffe.id} optionSelected={coffe.is_selected}>
         <CardImageOfCoffeToSell>
           <img src={coffe.img} alt="" />
         </CardImageOfCoffeToSell>

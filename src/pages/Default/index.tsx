@@ -1,4 +1,4 @@
-import { coffesList } from "./coffes";
+import { coffesList_Default } from "./coffesList_Default";
 import { CoffeList } from "../../Types/coffe";
 import CoffeeCard from "./components/coffeCard";
 import { defaultTheme } from "../../../sytles/themes/default";
@@ -6,11 +6,10 @@ import imagePadrao from "../../assets/foto_padrao_pagina.png";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { CoffesAddedToCartContext } from "../../context/coffesAddedToCart";
 import { Coffee, Package, ShoppingCart, Timer } from "@phosphor-icons/react";
-
 import {
-  CalculateValuesDeliveryOfCoffeForItem,
   CalculateValuesOfCoffeForItem,
-} from "../../functions/result";
+  CalculateValuesDeliveryOfCoffeForItem,
+} from "../../Operations";
 
 import {
   Title,
@@ -27,69 +26,90 @@ import {
 } from "./sytle";
 
 function LagoutDefault() {
+  const [coffesListState, setCoffesList] =
+    useState<CoffeList[]>(coffesList_Default);
+
   const { addedSelectedCoffeesToCart, listCoffeesInTheCart } = useContext(
     CoffesAddedToCartContext
   );
 
-  const [coffesListState, setCoffesList] = useState<CoffeList[]>(coffesList);
-
   useEffect(() => {
-    if (listCoffeesInTheCart.length > 0) {
-      setCoffesList((ListOfcoffes) => {
-        return ListOfcoffes.map((coffe) => {
-          const isCoffeSelected = listCoffeesInTheCart.find(
-            (coffeMarkAsSelected) => coffeMarkAsSelected.id === coffe.id
-          );
-          return isCoffeSelected ? isCoffeSelected : coffe;
+    try {
+      if (listCoffeesInTheCart.length > 0) {
+        setCoffesList((ListOfcoffes) => {
+          return ListOfcoffes.map((coffe) => {
+            const isThisCoffeAddToOrder = listCoffeesInTheCart.find(
+              (coffeMarkAsSelected) => coffeMarkAsSelected.id === coffe.id
+            );
+            return isThisCoffeAddToOrder ? isThisCoffeAddToOrder : coffe;
+          });
         });
-      });
+      }
+    } catch (error) {
+      console.log(
+        "Error when trying to update list of coffees added to purchase: ",
+        error
+      );
     }
   }, [listCoffeesInTheCart]);
 
-  const AddCoffeeToPurchaseAndMarkAsSelected = useCallback(
+  const addCoffeeToPurchaseAndMarkAsSelected = useCallback(
     (idCoffeSelected: string) => {
-      setCoffesList((ListOfcoffes) => {
-        const listofAllCoffes = ListOfcoffes.map((coffe) =>
-          coffe.id === idCoffeSelected ? { ...coffe, is_selected: true } : coffe
+      try {
+        setCoffesList((ListOfcoffes) => {
+          const listofAllCoffes = ListOfcoffes.map((coffe) =>
+            coffe.id === idCoffeSelected
+              ? { ...coffe, is_selected: true }
+              : coffe
+          );
+          const litsOfcoffeMarkAsSelected = listofAllCoffes.filter(
+            (coffe) => coffe.is_selected == true
+          );
+          addedSelectedCoffeesToCart(
+            litsOfcoffeMarkAsSelected,
+            litsOfcoffeMarkAsSelected.length
+          );
+          return listofAllCoffes;
+        });
+      } catch (error) {
+        console.log(
+          "Error on function addCoffeeToPurchaseAndMarkAsSelected: ",
+          error
         );
-        const coffeMarkAsSelected = listofAllCoffes.filter(
-          (coffe) => coffe.is_selected == true
-        );
-        addedSelectedCoffeesToCart(
-          coffeMarkAsSelected,
-          coffeMarkAsSelected.length
-        );
-        return listofAllCoffes;
-      });
+      }
     },
     [addedSelectedCoffeesToCart]
   );
 
-  const genereiteNewLista = useCallback(
+  const updateCoffeListItem = useCallback(
     (idCoffeSelected: string, increase: boolean) => {
-      setCoffesList((prev) => {
-        const newList = prev.map((item) => {
-          if (item.id !== idCoffeSelected) return item;
+      try {
+        setCoffesList((ListOfcoffes) => {
+          const newList = ListOfcoffes.map((item) => {
+            if (item.id !== idCoffeSelected) return item;
 
-          let newAmount = increase ? item.amount + 1 : item.amount - 1;
-          if (newAmount <= 0) newAmount = 1;
+            let newAmount = increase ? item.amount + 1 : item.amount - 1;
+            if (newAmount <= 0) newAmount = 1;
 
-          return {
-            ...item,
-            amount: newAmount,
-            value: CalculateValuesOfCoffeForItem(
-              { ...item, amount: newAmount },
-              true
-            ),
-            delivery_value: CalculateValuesDeliveryOfCoffeForItem(
-              { ...item, amount: newAmount },
-              true
-            ),
-          };
+            return {
+              ...item,
+              amount: newAmount,
+              value: CalculateValuesOfCoffeForItem(
+                { ...item, amount: newAmount },
+                true
+              ),
+              delivery_value: CalculateValuesDeliveryOfCoffeForItem(
+                { ...item, amount: newAmount },
+                true
+              ),
+            };
+          });
+
+          return newList;
         });
-
-        return newList;
-      });
+      } catch (error) {
+        console.log("Error on function updateCoffeListItem: ", error);
+      }
     },
     []
   );
@@ -144,8 +164,8 @@ function LagoutDefault() {
             <CoffeeCard
               key={coffe.id}
               coffe={coffe}
-              onAdd={AddCoffeeToPurchaseAndMarkAsSelected}
-              onChangeAmount={genereiteNewLista}
+              onAdd={addCoffeeToPurchaseAndMarkAsSelected}
+              onChangeAmount={updateCoffeListItem}
             />
           );
         })}

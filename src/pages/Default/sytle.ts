@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { propsPriceContainerOnCoffee, propsIconBottom } from "../Default/types";
+import { propsPriceContainerOnCoffee, propsIconBottom, OptionOfMenuProps } from "../Default/types";
 
 export const CardDefaulLayout = styled.div`
   display: flex;
@@ -97,10 +97,6 @@ export const CardMenuForSell = styled.div`
   margin: 1rem 10rem;
 `;
 
-interface OptionOfMenuProps {
-  is_selected: boolean;
-}
-
 export const OptionOfMenu = styled.div<OptionOfMenuProps>`
   position: relative;
   width: 17rem;
@@ -113,22 +109,21 @@ export const OptionOfMenu = styled.div<OptionOfMenuProps>`
   gap: 18px;
   border-radius: 8px 40px 8px 40px;
   background-color: ${(props) => props.theme["gray-200"]};
-  opacity: ${(props) => (props.is_selected ? 0.6 : 1)};
-  pointer-events: ${(props) => (props.is_selected ? "none" : "auto")};
+  opacity: ${(props) => (props.optionSelected ? 0.6 : 1)};
+  pointer-events: ${(props) => (props.optionSelected ? "none" : "auto")};
   flex-shrink: 0;
   transition: all 0.3s ease;
 
   &::after {
     font-family: "Roboto Condensed", sans-serif;
-    content: ${(props) => (props.is_selected ? "'Café reservado'" : "''")};
+    content: ${(props) => (props.optionSelected ? "'Café reservado'" : "''")};
     position: absolute;
     top: 16%;
     left: 83%;
     transform: translate(-50%, -50%) rotate(-0deg);
     padding: 0.1rem;
     font-size: 1rem;
-    //border: solid 1px ${(props) => props.theme["purple-500"]};
-    border: ${(props) => (props.is_selected ? "solid 2px #4B2995" : "none")};
+    border: ${(props) => (props.optionSelected ? "solid 2px #4B2995" : "none")};
     border-radius: 8px 0px 8px 8px;
     background-color: ${(props) => props.theme["purple-100"]};
     color: ${(props) => props.theme["purple-500"]};

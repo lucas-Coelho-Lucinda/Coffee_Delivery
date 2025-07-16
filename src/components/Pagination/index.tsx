@@ -29,7 +29,7 @@ import {
 import {
   CalculateValuesOfCoffeForAllItens,
   handdleGeneratingCafeItemList,
-} from "../../functions/result";
+} from "../../Operations";
 
 interface PaginationProps {
   CoffeList: CoffeList[];
