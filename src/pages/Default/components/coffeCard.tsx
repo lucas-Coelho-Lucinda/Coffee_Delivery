@@ -1,0 +1,96 @@
+import React from "react";
+import { CoffeList } from "../../../Types/coffe";
+import { ShoppingCart } from "@phosphor-icons/react";
+import {
+  TitleCoffee,
+  OptionOfMenu,
+  TextAddAmount,
+  SubTitleCoffee,
+  TypeCoffeeOffer,
+  ButtonAddShopping,
+  ButtonAddAmountPlus,
+  CardOfDeffaultValue,
+  TitleCoffeeContainer,
+  ValueOfCoffeCurrent,
+  CardTransactionsCoffee,
+  CardImageOfCoffeToSell,
+  PriceContainerOnCoffee,
+  ButtonAddAmountNegative,
+  CarButtonAddOrRemoveAmount,
+  OrderButtonPositioningCard,
+  TextDescriptionOfDevaultValue,
+} from "../sytle";
+
+interface propsCoffeCard {
+  coffe: CoffeList;
+  onAdd: (idCoffeSelected: string) => void;
+  onChangeAmount: (idCoffeSelected: string, increase: boolean) => void;
+}
+
+const CoffeeCard = React.memo(
+  ({ coffe, onAdd, onChangeAmount }: propsCoffeCard) => {
+    return (
+      <OptionOfMenu key={coffe.id} is_selected={coffe.is_selected}>
+        <CardImageOfCoffeToSell>
+          <img src={coffe.img} alt="" />
+        </CardImageOfCoffeToSell>
+        <TitleCoffeeContainer>
+          {coffe.CoffeeCharacteristics.map((Feature) => (
+            <TypeCoffeeOffer key={Feature.id}>
+              {Feature.adjective}
+            </TypeCoffeeOffer>
+          ))}
+        </TitleCoffeeContainer>
+
+        <TitleCoffee>{coffe.title}</TitleCoffee>
+
+        <SubTitleCoffee>{coffe.SubTitles}</SubTitleCoffee>
+        <CardOfDeffaultValue>
+          <PriceContainerOnCoffee color="yellow-300" background="yellow-100">
+            <TextDescriptionOfDevaultValue>
+              Apartir de:
+            </TextDescriptionOfDevaultValue>
+            {coffe.value_default}
+          </PriceContainerOnCoffee>
+
+          <PriceContainerOnCoffee color="yellow-300" background="yellow-100">
+            <TextDescriptionOfDevaultValue>
+              Frete fixo:
+            </TextDescriptionOfDevaultValue>
+            {coffe.delivery_value_default}
+          </PriceContainerOnCoffee>
+
+          <PriceContainerOnCoffee color="purple-300" background="purple-100">
+            <TextDescriptionOfDevaultValue>
+              Frete atual:
+            </TextDescriptionOfDevaultValue>
+            {coffe.delivery_value}
+          </PriceContainerOnCoffee>
+        </CardOfDeffaultValue>
+        <CardTransactionsCoffee>
+          <ValueOfCoffeCurrent>{coffe.value}</ValueOfCoffeCurrent>
+          <OrderButtonPositioningCard>
+            <CarButtonAddOrRemoveAmount>
+              <ButtonAddAmountNegative
+                onClick={() => onChangeAmount(coffe?.id, false)}
+              >
+                -
+              </ButtonAddAmountNegative>
+              <TextAddAmount>{coffe.amount}</TextAddAmount>
+              <ButtonAddAmountPlus
+                onClick={() => onChangeAmount(coffe?.id, true)}
+              >
+                +
+              </ButtonAddAmountPlus>
+            </CarButtonAddOrRemoveAmount>
+            <ButtonAddShopping onClick={() => onAdd(coffe?.id)}>
+              <ShoppingCart size={24} weight="fill" />
+            </ButtonAddShopping>
+          </OrderButtonPositioningCard>
+        </CardTransactionsCoffee>
+      </OptionOfMenu>
+    );
+  }
+);
+
+export default CoffeeCard;
