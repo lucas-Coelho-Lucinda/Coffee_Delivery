@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-export const coffesList = [
+export const coffesList_Default = [
   {
     id: uuidv4(),
     img: "/src/assets/Foto_itens/expresso_Tradicional.png",
