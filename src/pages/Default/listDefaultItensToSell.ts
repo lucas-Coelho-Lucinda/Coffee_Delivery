@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-export const coffesList_Default = [
+export const listDefaultItensToSell = [
   {
     id: uuidv4(),
     img: "/src/assets/Foto_itens/expresso_Tradicional.png",
@@ -10,12 +10,11 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 3,50",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [
-      { id: uuidv4(), adjective: "TRADICIONAL" },
-      { id: uuidv4(), adjective: "VALOR ATUAL" },
+    coffeeCharacteristics: [
+      { id: uuidv4(), adjective: "TRADICIONAL" }
     ],
     title: "Expresso Tradicional",
-    SubTitles: "O tradicional café feito com água quente e grãos moídos",
+    subTitles: "O tradicional café feito com água quente e grãos moídos",
   },
   {
     id: uuidv4(),
@@ -26,9 +25,9 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 4,20",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [{ id: uuidv4(), adjective: "TRADICIONAL" }],
+    coffeeCharacteristics: [{ id: uuidv4(), adjective: "TRADICIONAL" }],
     title: "Expresso Americano",
-    SubTitles: "Expresso diluído, menos intenso que o tradicional",
+    subTitles: "Expresso diluído, menos intenso que o tradicional",
   },
   {
     id: uuidv4(),
@@ -39,9 +38,9 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 3,90",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [{ id: uuidv4(), adjective: "TRADICIONAL" }],
+    coffeeCharacteristics: [{ id: uuidv4(), adjective: "TRADICIONAL" }],
     title: "Expresso cremoso",
-    SubTitles: "Café expresso tradicional com espuma cremosa",
+    subTitles: "Café expresso tradicional com espuma cremosa",
   },
   {
     id: uuidv4(),
@@ -52,12 +51,12 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 4,10",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [
+    coffeeCharacteristics: [
       { id: uuidv4(), adjective: "TRADICIONAL" },
       { id: uuidv4(), adjective: "GELADO" },
     ],
     title: "Expresso Gelado",
-    SubTitles: "Bebida preparada com café expresso e cubos de gelo",
+    subTitles: "Bebida preparada com café expresso e cubos de gelo",
   },
   {
     id: uuidv4(),
@@ -68,12 +67,12 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 5,50",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [
+    coffeeCharacteristics: [
       { id: uuidv4(), adjective: "TRADICIONAL" },
       { id: uuidv4(), adjective: "COM LEITE" },
     ],
     title: "Café com Leite",
-    SubTitles: "Meio a meio de expresso tradicional com leite vaporizado",
+    subTitles: "Meio a meio de expresso tradicional com leite vaporizado",
   },
   {
     id: uuidv4(),
@@ -84,12 +83,12 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 6,20",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [
+    coffeeCharacteristics: [
       { id: uuidv4(), adjective: "TRADICIONAL" },
       { id: uuidv4(), adjective: "COM LEITE" },
     ],
     title: "Latte",
-    SubTitles:
+    subTitles:
       "Uma dose de café expresso com o dobro de leite e espuma cremosa",
   },
   {
@@ -101,12 +100,12 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 7,10",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [
+    coffeeCharacteristics: [
       { id: uuidv4(), adjective: "TRADICIONAL" },
       { id: uuidv4(), adjective: "COM LEITE" },
     ],
     title: "Capuccino",
-    SubTitles:
+    subTitles:
       "Bebida com canela feita de doses iguais de café, leite e espuma",
   },
   {
@@ -118,12 +117,12 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 4,80",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [
+    coffeeCharacteristics: [
       { id: uuidv4(), adjective: "TRADICIONAL" },
       { id: uuidv4(), adjective: "COM LEITE" },
     ],
     title: "Macchiato",
-    SubTitles: "Café expresso misturado com um pouco de leite quente e espuma",
+    subTitles: "Café expresso misturado com um pouco de leite quente e espuma",
   },
   {
     id: uuidv4(),
@@ -134,12 +133,12 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 4,50",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [
+    coffeeCharacteristics: [
       { id: uuidv4(), adjective: "TRADICIONAL" },
       { id: uuidv4(), adjective: "COM LEITE" },
     ],
     title: "Mocaccino",
-    SubTitles: "Café expresso com calda de chocolate, pouco leite e espuma",
+    subTitles: "Café expresso com calda de chocolate, pouco leite e espuma",
   },
   {
     id: uuidv4(),
@@ -150,12 +149,12 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 6,90",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [
+    coffeeCharacteristics: [
       { id: uuidv4(), adjective: "ESPECIAL" },
       { id: uuidv4(), adjective: "COM LEITE" },
     ],
     title: "Chocolate Quente",
-    SubTitles: "Bebida feita com chocolate dissolvido no leite quente e café",
+    subTitles: "Bebida feita com chocolate dissolvido no leite quente e café",
   },
   {
     id: uuidv4(),
@@ -166,13 +165,13 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 9,80",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [
+    coffeeCharacteristics: [
       { id: uuidv4(), adjective: "ESPECIAL" },
       { id: uuidv4(), adjective: "ALCOÓLICO" },
       { id: uuidv4(), adjective: "GELADO" },
     ],
     title: "Cubano",
-    SubTitles:
+    subTitles:
       "Drink gelado de café expresso com rum, creme de leite e hortelã",
   },
   {
@@ -184,9 +183,9 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 10,90",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [{ id: uuidv4(), adjective: "ESPECIAL" }],
+    coffeeCharacteristics: [{ id: uuidv4(), adjective: "ESPECIAL" }],
     title: "Árabe",
-    SubTitles: "Bebida preparada com grãos de café árabe e especiarias",
+    subTitles: "Bebida preparada com grãos de café árabe e especiarias",
   },
   {
     id: uuidv4(),
@@ -197,11 +196,11 @@ export const coffesList_Default = [
     delivery_value_default: "R$ 11,50",
     amount: 1,
     is_selected: false,
-    CoffeeCharacteristics: [
+    coffeeCharacteristics: [
       { id: uuidv4(), adjective: "ESPECIAL" },
       { id: uuidv4(), adjective: "ALCOÓLICO" },
     ],
     title: "Irlandês",
-    SubTitles: "Bebida a base de café, uísque irlandês, açúcar e chantilly",
+    subTitles: "Bebida a base de café, uísque irlandês, açúcar e chantilly",
   },
 ];

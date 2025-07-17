@@ -22,7 +22,7 @@ import {
   TextDescriptionOfDevaultValue,
 } from "../sytle";
 
-const CoffeeCard = React.memo(
+const CoffeeListToSell = React.memo(
   ({ coffe, onAdd, onChangeAmount }: propsCoffeCard) => {
     return (
       <OptionOfMenu key={coffe.id} optionSelected={coffe.is_selected}>
@@ -30,7 +30,7 @@ const CoffeeCard = React.memo(
           <img src={coffe.img} alt="" />
         </CardImageOfCoffeToSell>
         <TitleCoffeeContainer>
-          {coffe.CoffeeCharacteristics.map((Feature) => (
+          {coffe.coffeeCharacteristics.map((Feature) => (
             <TypeCoffeeOffer key={Feature.id}>
               {Feature.adjective}
             </TypeCoffeeOffer>
@@ -39,7 +39,7 @@ const CoffeeCard = React.memo(
 
         <TitleCoffee>{coffe.title}</TitleCoffee>
 
-        <SubTitleCoffee>{coffe.SubTitles}</SubTitleCoffee>
+        <SubTitleCoffee>{coffe.subTitles}</SubTitleCoffee>
         <CardOfDeffaultValue>
           <PriceContainerOnCoffee color="yellow-300" background="yellow-100">
             <TextDescriptionOfDevaultValue>
@@ -88,4 +88,4 @@ const CoffeeCard = React.memo(
   }
 );
 
-export default CoffeeCard;
+export default CoffeeListToSell;
