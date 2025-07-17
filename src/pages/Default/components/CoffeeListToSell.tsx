@@ -22,7 +22,7 @@ import {
   TextDescriptionOfDevaultValue,
 } from "../sytle";
 
-const CoffeeListToSell = React.memo(
+export const CoffeeListToSell = React.memo(
   ({ coffe, onAdd, onChangeAmount }: propsCoffeCard) => {
     return (
       <OptionOfMenu key={coffe.id} optionSelected={coffe.is_selected}>
@@ -87,5 +87,3 @@ const CoffeeListToSell = React.memo(
     );
   }
 );
-
-export default CoffeeListToSell;

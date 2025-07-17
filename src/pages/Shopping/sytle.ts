@@ -1,9 +1,6 @@
 import styled from "styled-components";
-//  border-radius: 0px 50px 0px 50px;
-////background: ${(props) => props.theme["gray-200"]};
-/* 
-  font-family: "Baloo 2", sans-serif;
-  color: ${(props) => props.theme["gray-1000"]}; */
+import { GuidanceShoppingAndressProps } from "./types";
+
 export const GuidanceShopping = styled.form`
   display: flex;
   flex-wrap: wrap;
@@ -48,31 +45,28 @@ export const ShoppingTitleRequested = styled.h1`
   color: ${(props) => props.theme["gray-1000"]};
 `;
 
-interface GuidanceShoppingAndressProps {
-  disabled: boolean;
-}
 
-export const GuidanceShoppingAndress = styled.div<GuidanceShoppingAndressProps>`
+
+export const GuidanceShoppingAndress = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "disabled",
+})<GuidanceShoppingAndressProps>`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 40px;
   gap: 15px;
+  padding: 40px;
   border-radius: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   background-color: ${(props) => props.theme["gray-200"]};
-
-  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+  pointer-events: ${(props) => (props.thisFormCanBeEnabled ? "none" : "auto")};
   ${(props) =>
-    props.disabled
+    props.thisFormCanBeEnabled
       ? `
     white-space: nowrap;
     pointer-events: none;
     user-select: none;
-     opacity: 0.7;
-
-    `
-      : ""}
+    opacity: 0.7;
+    `: ""}
 `;
 
 export const GuidanceShoppingAdressForm = styled.div`

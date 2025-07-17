@@ -1,7 +1,7 @@
 import { CoffeList } from "../../Types/coffe";
 
-import CoffeIntro from "./components/CoffeIntro";
-import CoffeeListToSell from "./components/CoffeeListToSell";
+import CoffeIntro from "./components/coffeIntro";
+import { CoffeeListToSell } from "./components/coffeeListToSell";
 
 import { listDefaultItensToSell } from "./listDefaultItensToSell";
 
@@ -18,6 +18,7 @@ import {
   CardMenuForSell,
   CardTitleOfOptionsCoffesList,
 } from "./sytle";
+
 
 function LagoutDefault() {
   const [coffesListState, setCoffesList] = useState<CoffeList[]>(

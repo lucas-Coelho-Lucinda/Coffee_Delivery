@@ -1,5 +1,3 @@
-import { JSX } from "react";
-
 export interface totalCalculeOrder {
   valueTotalOfAllPayment: string;
   valueTotalOfAllItensSome: string;
@@ -32,11 +30,4 @@ export interface CoffeList {
   }[];
   title: string;
   subTitles: string;
-}
-
-export interface buttonForm {
-  id: string;
-  selected: boolean;
-  form: string;
-  incone: JSX.Element;
 }
