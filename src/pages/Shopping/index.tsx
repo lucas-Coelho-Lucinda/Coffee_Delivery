@@ -107,8 +107,8 @@ function Shopping() {
     listCoffeesInTheCart.map((elemento) => {
       elemento.amount = 1;
       elemento.is_selected = false;
-      elemento.value = elemento.value_default;
-      elemento.delivery_value = elemento.delivery_value_default;
+      elemento.value = elemento.valueDefault;
+      elemento.deliveryValue = elemento.deliveryValueDefault;
       return elemento;
     });
     addedSelectedCoffeesToCart([], 0);

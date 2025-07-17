@@ -21,9 +21,9 @@ export interface CoffeList {
   id: string;
   img: string;
   value: string;
-  value_default: string;
-  delivery_value: string;
-  delivery_value_default: string;
+  valueDefault: string;
+  deliveryValue: string;
+  deliveryValueDefault: string;
   amount: number;
   is_selected: boolean;
   coffeeCharacteristics: {

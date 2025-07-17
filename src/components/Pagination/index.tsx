@@ -74,8 +74,8 @@ const Pagination = ({ CoffeList, totalOfValueCoffe }: PaginationProps) => {
       if (id == elemento.id) {
         elemento.amount = 1;
         elemento.is_selected = false;
-        elemento.value = elemento.value_default;
-        elemento.delivery_value = elemento.delivery_value_default;
+        elemento.value = elemento.valueDefault;
+        elemento.deliveryValue = elemento.deliveryValueDefault;
       }
       return elemento;
     });
@@ -139,15 +139,15 @@ const Pagination = ({ CoffeList, totalOfValueCoffe }: PaginationProps) => {
             <ItensValuesOfOrders>
               <DeffaulValueToPay>
                 <p>Apartir de:</p>
-                {coffeSell.value_default}
+                {coffeSell.valueDefault}
               </DeffaulValueToPay>
               <DeffaulValueToPay>
                 <p>Frete fixo:</p>
-                {coffeSell.delivery_value_default}
+                {coffeSell.deliveryValueDefault}
               </DeffaulValueToPay>
               <DeliveryValue>
                  <p>Frete atual:</p>
-                {coffeSell.delivery_value}
+                {coffeSell.deliveryValue}
               </DeliveryValue>
               <TextValueOfCoffeToPay>{coffeSell.value}</TextValueOfCoffeToPay>
             </ItensValuesOfOrders>

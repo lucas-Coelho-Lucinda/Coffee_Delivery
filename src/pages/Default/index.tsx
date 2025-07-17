@@ -1,19 +1,28 @@
 import { CoffeList } from "../../Types/coffe";
-import CoffeIntro from "./components/coffeIntro";
-import { listDefaultItensToSell } from "./listDefaultitensToSell";
+
+import CoffeIntro from "./components/CoffeIntro";
 import CoffeeListToSell from "./components/CoffeeListToSell";
+
+import { listDefaultItensToSell } from "./listDefaultItensToSell";
+
 import { useCallback, useContext, useEffect, useState } from "react";
 import { CoffesAddedToCartContext } from "../../context/coffesAddedToCart";
+
 import {
   CalculateValuesOfCoffeForItem,
   CalculateValuesDeliveryOfCoffeForItem,
 } from "../../Operations";
 
-import { CardMenuForSell, CardTitleOfOptionsCoffesList, TitleOfOptions } from "./sytle";
+import {
+  TitleOfOptions,
+  CardMenuForSell,
+  CardTitleOfOptionsCoffesList,
+} from "./sytle";
 
 function LagoutDefault() {
-  const [coffesListState, setCoffesList] =
-    useState<CoffeList[]>(listDefaultItensToSell);
+  const [coffesListState, setCoffesList] = useState<CoffeList[]>(
+    listDefaultItensToSell
+  );
 
   const { addedSelectedCoffeesToCart, listCoffeesInTheCart } = useContext(
     CoffesAddedToCartContext
@@ -85,7 +94,7 @@ function LagoutDefault() {
                 { ...item, amount: newAmount },
                 true
               ),
-              delivery_value: CalculateValuesDeliveryOfCoffeForItem(
+              deliveryValue: CalculateValuesDeliveryOfCoffeForItem(
                 { ...item, amount: newAmount },
                 true
               ),

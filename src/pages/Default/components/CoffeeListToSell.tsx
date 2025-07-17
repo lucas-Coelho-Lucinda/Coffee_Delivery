@@ -45,21 +45,21 @@ const CoffeeListToSell = React.memo(
             <TextDescriptionOfDevaultValue>
               Apartir de:
             </TextDescriptionOfDevaultValue>
-            {coffe.value_default}
+            {coffe.valueDefault}
           </PriceContainerOnCoffee>
 
           <PriceContainerOnCoffee color="yellow-300" background="yellow-100">
             <TextDescriptionOfDevaultValue>
               Frete fixo:
             </TextDescriptionOfDevaultValue>
-            {coffe.delivery_value_default}
+            {coffe.deliveryValueDefault}
           </PriceContainerOnCoffee>
 
           <PriceContainerOnCoffee color="purple-300" background="purple-100">
             <TextDescriptionOfDevaultValue>
               Frete atual:
             </TextDescriptionOfDevaultValue>
-            {coffe.delivery_value}
+            {coffe.deliveryValue}
           </PriceContainerOnCoffee>
         </CardOfDeffaultValue>
         <CardTransactionsCoffee>

@@ -17,7 +17,7 @@ const handdleGeneratingCafeItemList = (
         ...item,
         amount: newAmount,
         value: CalculateValuesOfCoffeForItem({ ...item, amount: newAmount }, true),
-        delivery_value: CalculateValuesDeliveryOfCoffeForItem({ ...item, amount: newAmount }, true),
+        deliveryValue: CalculateValuesDeliveryOfCoffeForItem({ ...item, amount: newAmount }, true),
       };
 
       return updatedItem;
@@ -40,7 +40,7 @@ const CalculateValuesOfCoffeForItem = (
   coffeSell: CoffeList,
   multiply: boolean
 ) => {
-  const valor = coffeSell.value_default
+  const valor = coffeSell.valueDefault
     .replace(/\s/g, "") // remove espaços
     .replace("R$", "") // remove símbolo
     .replace(/\./g, "") // remove pontos de milhar
@@ -61,7 +61,7 @@ const CalculateValuesDeliveryOfCoffeForItem = (
   coffeSell: CoffeList,
   multiply: boolean
 ) => {
-  const valorOpcaoDelivery = coffeSell.delivery_value_default
+  const valorOpcaoDelivery = coffeSell.deliveryValueDefault
     .replace(/\s/g, "") // remove espaços
     .replace("R$", "") // remove símbolo
     .replace(/\./g, "") // remove pontos de milhar
@@ -95,7 +95,7 @@ const CalculateValuesOfCoffeForAllItens = (coffeSell: CoffeList[]) => {
         .replace(",", ".")
     );
     const valueOfDeliveryValue = parseFloat(
-      item?.delivery_value
+      item?.deliveryValue
         .replace(/\s/g, "") // remove espaços
         .replace("R$", "") // remove símbolo
         .replace(/\./g, "") // remove pontos de milhar
