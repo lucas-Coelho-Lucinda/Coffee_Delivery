@@ -61,9 +61,15 @@ export const Boxaddress = styled.div`
   padding: 0.625rem;
   background: ${(props) => props.theme["purple-100"]};
 `;
+export const TextNameAndStateAcronym = styled.p`
+  font-family: "Roboto", sans-serif;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  color: ${(props) => props.theme["purple-300"]};
+`;
 
 export const Boxkindness = styled.div`
-  position: relative; /* Permite que o DivCount seja posicionado dentro dele */
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;

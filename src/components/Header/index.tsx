@@ -13,6 +13,7 @@ import {
   Countekindness,
   DivCount,
   DivShoppingCart,
+  TextNameAndStateAcronym,
 } from "./style";
 
 function Header() {
@@ -21,10 +22,10 @@ function Header() {
   return (
     <div>
       <BackgroundHeader>
-        <NavLink to={'/'}>
-        <CardImge>
-          <img src={Logo} alt="logo_do_header" />
-        </CardImge>
+        <NavLink to={"/"}>
+          <CardImge>
+            <img src={Logo} alt="logo_do_header" />
+          </CardImge>
         </NavLink>
         <CardInfoHeader>
           <Boxaddress>
@@ -33,7 +34,7 @@ function Header() {
               weight="fill"
               color={defaultTheme["purple-300"]}
             />
-            {/* <TextInfo text={"Porto Alegre, RS"} /> */}
+            <TextNameAndStateAcronym>Porto Alegre, RS</TextNameAndStateAcronym>
           </Boxaddress>
           <Boxkindness>
             {numberOfCoffeesInTheCart > 0 && (
@@ -43,22 +44,21 @@ function Header() {
             )}
 
             <DivShoppingCart>
-
-              {numberOfCoffeesInTheCart > 0 ?
-               <NavLink to={"/Shopping"}>
+              {numberOfCoffeesInTheCart > 0 ? (
+                <NavLink to={"/Shopping"}>
+                  <ShoppingCart
+                    size={24}
+                    weight="fill"
+                    color={defaultTheme["yellow-300"]}
+                  />
+                </NavLink>
+              ) : (
                 <ShoppingCart
                   size={24}
                   weight="fill"
                   color={defaultTheme["yellow-300"]}
                 />
-              </NavLink>
-              :<ShoppingCart
-                  size={24}
-                  weight="fill"
-                  color={defaultTheme["yellow-300"]}
-                />
-            }
-              
+              )}
             </DivShoppingCart>
           </Boxkindness>
         </CardInfoHeader>

@@ -26,12 +26,12 @@ export interface CoffeList {
   delivery_value_default: string;
   amount: number;
   is_selected: boolean;
-  CoffeeCharacteristics: {
+  coffeeCharacteristics: {
     id: string;
     adjective: string;
   }[];
   title: string;
-  SubTitles: string;
+  subTitles: string;
 }
 
 export interface buttonForm {

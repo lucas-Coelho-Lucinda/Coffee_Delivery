@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { propsPriceContainerOnCoffee, propsIconBottom, OptionOfMenuProps } from "../Default/types";
+import {
+  propsPriceContainerOnCoffee,
+  propsIconBottom,
+  OptionOfMenuProps,
+} from "../Default/types";
 
 export const CardDefaulLayout = styled.div`
   display: flex;
@@ -24,7 +28,6 @@ export const SubTitle = styled.p`
   overflow-wrap: break-word;
   color: ${(props) => props.theme["gray-900"]};
 `;
-
 
 export const CardDefaultBackGround = styled.div`
   position: absolute;
@@ -97,7 +100,9 @@ export const CardMenuForSell = styled.div`
   margin: 1rem 10rem;
 `;
 
-export const OptionOfMenu = styled.div<OptionOfMenuProps>`
+export const OptionOfMenu = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "optionSelected",
+})<OptionOfMenuProps>`
   position: relative;
   width: 17rem;
   padding: 1rem;
@@ -187,7 +192,9 @@ export const ValueOfCoffeCurrent = styled.span`
   font-size: 25px;
 `;
 
-export const PriceContainerOnCoffee = styled.h6<propsPriceContainerOnCoffee>`
+export const PriceContainerOnCoffee = styled.h6.withConfig({
+  shouldForwardProp: (prop) => prop !== 'background' && prop !== 'color',
+})<propsPriceContainerOnCoffee>`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -207,7 +214,6 @@ export const TextDescriptionOfDevaultValue = styled.p`
   font-family: "Roboto Condensed", sans-serif;
 `;
 
-
 export const TitleCoffeeContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -223,13 +229,12 @@ export const TitleCoffee = styled.h3`
 `;
 
 export const SubTitleCoffee = styled.span`
- /*  position: absolute;
+  /*  position: absolute;
   top: 33%; */
   font-family: "Roboto", sans-serif;
   text-align: center;
   max-width: 16.875rem;
 `;
-
 
 export const DeliveryValue = styled.div`
   position: absolute;
