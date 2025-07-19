@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GuidanceShoppingAndressProps } from "./types";
+import { enableFormComponet, propsMessageFormWarning } from "./types";
 
 export const GuidanceShopping = styled.form`
   display: flex;
@@ -11,9 +11,6 @@ export const GuidanceShopping = styled.form`
   margin: 8%;
 `;
 
-interface propsMessageFormWarning {
-  position: boolean;
-}
 
 export const MessageFormWarning = styled.div<propsMessageFormWarning>`
   font-family: "Roboto", sans-serif;
@@ -21,14 +18,13 @@ export const MessageFormWarning = styled.div<propsMessageFormWarning>`
   padding: 0px;
   margin: 0px;
   width: fit-content;
-
   ${(props) =>
-    props.position
+    props.enableControlPosition
       ? `
-     font-size: 18px;
-     position: relative;
-     top: -10px;
-     left: 240px;
+     font-size: ${props.font_size};
+     position: ${props.position};
+     top: ${props.top};
+     left: ${props.left};
     `
       : ""}
 `;
@@ -47,9 +43,9 @@ export const ShoppingTitleRequested = styled.h1`
 
 
 
-export const GuidanceShoppingAndress = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== "disabled",
-})<GuidanceShoppingAndressProps>`
+export const CardFormField = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "thisformcanbeenabled",
+})<enableFormComponet>`
   display: flex;
   gap: 15px;
   padding: 40px;
@@ -58,9 +54,9 @@ export const GuidanceShoppingAndress = styled.div.withConfig({
   align-items: flex-start;
   justify-content: flex-start;
   background-color: ${(props) => props.theme["gray-200"]};
-  pointer-events: ${(props) => (props.thisFormCanBeEnabled ? "none" : "auto")};
+  pointer-events: ${(props) => (props.thisformcanbeenabled ? "none" : "auto")};
   ${(props) =>
-    props.thisFormCanBeEnabled
+    props.thisformcanbeenabled
       ? `
     white-space: nowrap;
     pointer-events: none;
@@ -69,13 +65,35 @@ export const GuidanceShoppingAndress = styled.div.withConfig({
     `: ""}
 `;
 
-export const GuidanceShoppingAdressForm = styled.div`
+export const CardFieldAndWarning = styled.div`
   display: flex;
   gap: 16px;
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
-  //margin-top: 5px;
+`;
+
+export const GuidanceShoppingFinancialOperation = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "thisformcanbeenabled",
+})<enableFormComponet>`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 40px;
+  border-radius: 8px;
+  background-color: ${(props) => props.theme["gray-200"]};
+  pointer-events: ${(props) => (props.thisformcanbeenabled ? "none" : "auto")};
+  ${(props) =>
+    props.thisformcanbeenabled
+      ? `
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+     opacity: 0.7;
+
+    `
+      : ""}
 `;
 
 export const WarningMessageDiv = styled.div`
@@ -100,7 +118,7 @@ interface FormAndresProps {
   size: string;
 }
 
-export const FormAndresInput = styled.input<FormAndresProps>`
+export const FormInput = styled.input<FormAndresProps>`
   outline: 1px solid ${(props) => props.theme["gray-600"]};
   background-color: ${(props) => props.theme["gray-300"]};
   padding: 10px;
@@ -241,44 +259,28 @@ export const TextValueOfCoffeToPay = styled.span`
   color: ${(props) => props.theme["gray-800"]};
 `;
 
-export const GuidanceShoppingAndressTitle = styled.div`
+export const TextsDefaultForm = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  width: 500px;
+  max-width: 510px;
   gap: 10px;
 `;
 
-export const ShoppingSubText = styled.p`
+export const TitleFormField = styled.p`
+  font-family: "Roboto", sans-serif;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  color: ${(props) => props.theme["gray-900"]};
+`;
+
+export const SubTitleFormField = styled.p`
   margin-left: 35px;
+    font-family: "Roboto", sans-serif;
   background-color: ${(props) => props.theme["gray-200"]};
 `;
 
-interface GuidanceShoppingFinancialOperationProps {
-  disabled: boolean;
-}
-
-export const GuidanceShoppingFinancialOperation = styled.div<GuidanceShoppingFinancialOperationProps>`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 40px;
-  border-radius: 8px;
-  background-color: ${(props) => props.theme["gray-200"]};
-  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
-  ${(props) =>
-    props.disabled
-      ? `
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
-     opacity: 0.7;
-
-    `
-      : ""}
-`;
 
 export const GuidanceShoppingListOfCoffes = styled.div`
   display: flex;

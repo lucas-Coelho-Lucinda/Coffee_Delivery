@@ -1,45 +1,46 @@
-import { MapPinLine } from "@phosphor-icons/react";
-import { Controller } from "react-hook-form";
-import { defaultTheme } from "../../../../../sytles/themes/default";
 import React from "react";
+import { Controller } from "react-hook-form";
+import { MapPinLine } from "@phosphor-icons/react";
+import { defaultTheme } from "../../../../../sytles/themes/default";
 import {
-  FormAndresInput,
+  FormInput,
   MessageFormWarning,
-  GuidanceShoppingAndress,
-  GuidanceShoppingAdressForm,
-  GuidanceShoppingAndressTitle,
-  ShoppingSubText,
+  CardFormField,
+  CardFieldAndWarning,
+  TextsDefaultForm,
+  SubTitleFormField,
   ShoppingTitleRequested,
   WarningMessageDiv,
+  TitleFormField,
 } from "../../sytle";
 import { PropsFormResquestOrder } from "../../types";
 
 export const FormResquestOrder = React.memo(
   ({
     errors,
+    control,
     register,
     setValue,
-    newCycleForm,
     formEnabled,
   }: PropsFormResquestOrder) => {
     return (
       <>
         <ShoppingTitleRequested>Complete seu pedido</ShoppingTitleRequested>
-        <GuidanceShoppingAndress thisFormCanBeEnabled={formEnabled}>
-          <GuidanceShoppingAndressTitle>
+        <CardFormField thisformcanbeenabled={formEnabled}>
+          <TextsDefaultForm>
             <MapPinLine size={24} color={defaultTheme["yellow-300"]} />
-            {/* <SubTitle text="Endereço de Entrega" /> */}
-            <ShoppingSubText>
+            <TitleFormField>Endereço de Entrega</TitleFormField>
+            <SubTitleFormField>
               Informe o endereço onde deseja receber seu pedido
-            </ShoppingSubText>
-          </GuidanceShoppingAndressTitle>
-          <GuidanceShoppingAdressForm>
+            </SubTitleFormField>
+          </TextsDefaultForm>
+          <CardFieldAndWarning>
             <WarningMessageDiv>
               <Controller
                 name="cep"
-                control={newCycleForm.control}
+                control={control}
                 render={() => (
-                  <FormAndresInput
+                  <FormInput
                     maxLength={9}
                     type="text"
                     {...register("cep")}
@@ -49,19 +50,25 @@ export const FormResquestOrder = React.memo(
                 )}
               />
               {errors.cep && (
-                <MessageFormWarning position={false}>
+                <MessageFormWarning
+                  top={""}
+                  left={""}
+                  position={""}
+                  font_size={""}
+                  enableControlPosition={false}
+                >
                   {errors.cep.message}
                 </MessageFormWarning>
               )}
             </WarningMessageDiv>
-          </GuidanceShoppingAdressForm>
-          <GuidanceShoppingAdressForm>
+          </CardFieldAndWarning>
+          <CardFieldAndWarning>
             <WarningMessageDiv>
               <Controller
                 name="rua"
-                control={newCycleForm.control}
+                control={control}
                 render={() => (
-                  <FormAndresInput
+                  <FormInput
                     type="text"
                     {...register("rua")}
                     placeholder="Rua"
@@ -70,19 +77,25 @@ export const FormResquestOrder = React.memo(
                 )}
               />
               {errors.rua && (
-                <MessageFormWarning position={false}>
+                <MessageFormWarning
+                  top={""}
+                  left={""}
+                  position={""}
+                  font_size={""}
+                  enableControlPosition={false}
+                >
                   {errors.rua.message}
                 </MessageFormWarning>
               )}
             </WarningMessageDiv>
-          </GuidanceShoppingAdressForm>
-          <GuidanceShoppingAdressForm>
+          </CardFieldAndWarning>
+          <CardFieldAndWarning>
             <WarningMessageDiv>
               <Controller
                 name="numero"
-                control={newCycleForm.control}
+                control={control}
                 render={() => (
-                  <FormAndresInput
+                  <FormInput
                     maxLength={5}
                     type="text"
                     {...register("numero")}
@@ -92,7 +105,13 @@ export const FormResquestOrder = React.memo(
                 )}
               />
               {errors.numero && (
-                <MessageFormWarning position={false}>
+                <MessageFormWarning
+                  top={""}
+                  left={""}
+                  position={""}
+                  font_size={""}
+                  enableControlPosition={false}
+                >
                   {errors.numero.message}
                 </MessageFormWarning>
               )}
@@ -100,9 +119,9 @@ export const FormResquestOrder = React.memo(
 
             <Controller
               name="complemento"
-              control={newCycleForm.control}
+              control={control}
               render={() => (
-                <FormAndresInput
+                <FormInput
                   type="text"
                   {...register("complemento")}
                   placeholder="Complemento"
@@ -110,14 +129,14 @@ export const FormResquestOrder = React.memo(
                 />
               )}
             />
-          </GuidanceShoppingAdressForm>
-          <GuidanceShoppingAdressForm>
+          </CardFieldAndWarning>
+          <CardFieldAndWarning>
             <WarningMessageDiv>
               <Controller
                 name="bairro"
-                control={newCycleForm.control}
+                control={control}
                 render={() => (
-                  <FormAndresInput
+                  <FormInput
                     type="text"
                     {...register("bairro")}
                     placeholder="Bairro"
@@ -126,7 +145,13 @@ export const FormResquestOrder = React.memo(
                 )}
               />
               {errors.bairro && (
-                <MessageFormWarning position={false}>
+                <MessageFormWarning
+                  top={""}
+                  left={""}
+                  position={""}
+                  font_size={""}
+                  enableControlPosition={false}
+                >
                   {errors.bairro.message}
                 </MessageFormWarning>
               )}
@@ -135,9 +160,9 @@ export const FormResquestOrder = React.memo(
             <WarningMessageDiv>
               <Controller
                 name="cidade"
-                control={newCycleForm.control}
+                control={control}
                 render={() => (
-                  <FormAndresInput
+                  <FormInput
                     type="text"
                     {...register("cidade")}
                     placeholder="Cidade"
@@ -146,7 +171,13 @@ export const FormResquestOrder = React.memo(
                 )}
               />
               {errors.cidade && (
-                <MessageFormWarning position={false}>
+                <MessageFormWarning
+                  top={""}
+                  left={""}
+                  position={""}
+                  font_size={""}
+                  enableControlPosition={false}
+                >
                   {errors.cidade.message}
                 </MessageFormWarning>
               )}
@@ -155,9 +186,9 @@ export const FormResquestOrder = React.memo(
             <WarningMessageDiv>
               <Controller
                 name="UF"
-                control={newCycleForm.control}
+                control={control}
                 render={() => (
-                  <FormAndresInput
+                  <FormInput
                     maxLength={2}
                     type="text"
                     {...register("UF")}
@@ -170,13 +201,19 @@ export const FormResquestOrder = React.memo(
                 )}
               />
               {errors.UF && (
-                <MessageFormWarning position={false}>
+                <MessageFormWarning
+                  top={""}
+                  left={""}
+                  position={""}
+                  font_size={""}
+                  enableControlPosition={false}
+                >
                   {errors.UF.message}
                 </MessageFormWarning>
               )}
             </WarningMessageDiv>
-          </GuidanceShoppingAdressForm>
-        </GuidanceShoppingAndress>
+          </CardFieldAndWarning>
+        </CardFormField>
       </>
     );
   }

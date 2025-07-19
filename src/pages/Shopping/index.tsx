@@ -1,11 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import registerOrder from "./zod/shopping.zod";
 import { FormOrderSend } from "../../Types/coffe";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { optionsOfPayments } from "./optionsOfPayments";
 import { SubmitHandler, useForm } from "react-hook-form";
-
 
 import Pagination from "../../components/Pagination";
 import NoMoreOrders from "./components/NoMoreOrders";
@@ -19,24 +18,16 @@ import {
   GuidanceShopping,
   ShoppingTitleRequested,
   GuidanceShoppingListOfCoffes,
-  OrderListOfCoffesToSell,
-  PaymentTotalizersTitle,
-  PaymentTotalizersResults,
-  OrderListOfPaymentTotalizersTitle,
-  OrderListOfPaymentResultsTitle,
-  ButtonFinalizeOrder,
 } from "./sytle";
+import { ValuesOfOrder } from "./components/ValuesOfOrder";
 
 function Shopping() {
   const navigate = useNavigate();
   const {
     listCoffeesInTheCart,
-    totalOfValueCoffe,
     setOrderResquetfinish,
     addedSelectedCoffeesToCart,
   } = useContext(CoffesAddedToCartContext);
-
-  const [totalData, setTotalData] = useState(totalOfValueCoffe);
 
   const enable = listCoffeesInTheCart.length <= 0 ? true : false;
 
@@ -48,6 +39,7 @@ function Shopping() {
     handleSubmit,
     register,
     setValue,
+    control,
     formState: { errors },
   } = newCycleForm;
 
@@ -74,13 +66,14 @@ function Shopping() {
         <ShoppingCards>
           <FormResquestOrder
             errors={errors}
+            control={control}
             setValue={setValue}
             register={register}
-            newCycleForm={newCycleForm}
             formEnabled={enable}
           />
           <OptionsOfPayment
             errors={errors}
+            control={control}
             setValue={setValue}
             formEnabled={enable}
             availableOperations={optionsOfPayments}
@@ -93,41 +86,8 @@ function Shopping() {
               <>
                 <Pagination
                   CoffeList={listCoffeesInTheCart}
-                  totalOfValueCoffe={setTotalData}
                 />
-                <OrderListOfCoffesToSell>
-                  <OrderListOfPaymentTotalizersTitle>
-                    <PaymentTotalizersTitle>
-                      Valor itens:
-                    </PaymentTotalizersTitle>
-                    <PaymentTotalizersTitle>
-                      Valor Frete:
-                    </PaymentTotalizersTitle>
-                    <PaymentTotalizersTitle>
-                      Total do pedido:
-                    </PaymentTotalizersTitle>
-                  </OrderListOfPaymentTotalizersTitle>
-                  <OrderListOfPaymentResultsTitle>
-                    <PaymentTotalizersResults>
-                      {totalData?.valueTotalOfAllItensSome
-                        ? totalData?.valueTotalOfAllItensSome
-                        : "R$ 00,00"}
-                    </PaymentTotalizersResults>
-                    <PaymentTotalizersResults>
-                      {totalData?.valueTotalOfAllDeliveryValue
-                        ? totalData?.valueTotalOfAllDeliveryValue
-                        : "R$ 00,00"}
-                    </PaymentTotalizersResults>
-                    <PaymentTotalizersResults>
-                      {totalData?.valueTotalOfAllPayment
-                        ? totalData?.valueTotalOfAllPayment
-                        : "R$ 00,00"}
-                    </PaymentTotalizersResults>
-                  </OrderListOfPaymentResultsTitle>
-                </OrderListOfCoffesToSell>
-                <ButtonFinalizeOrder type="submit">
-                  CONFIRMAR PEDIDO
-                </ButtonFinalizeOrder>
+                <ValuesOfOrder/>
               </>
             ) : (
               <NoMoreOrders />

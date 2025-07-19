@@ -1,71 +1,83 @@
+import React, { useState } from "react";
 import { buttonForm, PropsOptionsOfPayment } from "../../types";
-import { defaultTheme } from "../../../../../sytles/themes/default";
-import { CurrencyDollarSimple } from "@phosphor-icons/react/dist/ssr";
 import {
   FormButtonPayment,
-  GuidanceShoppingAndressTitle,
   GuidanceShoppingFinancialOperation,
   GuidanceShoppingPaymentForm,
   MessageFormWarning,
-  ShoppingSubText,
 } from "../../sytle";
-import React, { useState } from "react";
+import { Controller } from "react-hook-form";
 
 export const OptionsOfPayment = React.memo(
   ({
     errors,
+    control,
     setValue,
     formEnabled,
     availableOperations,
   }: PropsOptionsOfPayment) => {
-    const [options, setOptions] = useState<buttonForm[]>(availableOperations);
+    const [options, setOptions] = useState(availableOperations);
 
     const selectePayment = (payment: buttonForm) => {
-      setValue("modo_pagamento", payment.form);
       setOptions((prevOptions) =>
-        prevOptions.map((register) => ({
-          ...register,
-          selected: register.form === payment.form ? true : false,
-        }))
+        prevOptions.map((register) => {
+          if (register.form === payment.form && register.selected == false) {
+            return {
+              ...register,
+              selected: true,
+            };
+          }
+          return {
+            ...register,
+            selected: false,
+          };
+        })
       );
+
+      setValue("modo_pagamento", payment.selected ? "" : payment.form, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      });
     };
-
     return (
-      <>
-        <GuidanceShoppingFinancialOperation disabled={formEnabled}>
-          <GuidanceShoppingAndressTitle>
-            <CurrencyDollarSimple
-              size={24}
-              color={defaultTheme["purple-300"]}
-            />
-            {/* <SubTitle text="Pagamento" /> */}
-            <ShoppingSubText>
-              O pagamento é feito na entrega. Escolha a forma que deseja pagar
-            </ShoppingSubText>
-          </GuidanceShoppingAndressTitle>
-          <GuidanceShoppingPaymentForm>
-            {options.map((Element) => {
-              return (
+      <Controller
+        control={control}
+        name="modo_pagamento"
+        rules={{ required: true }}
+        render={() => (
+          <GuidanceShoppingFinancialOperation
+            thisformcanbeenabled={formEnabled}
+          >
+            <GuidanceShoppingPaymentForm>
+              {options.map((option) => (
                 <FormButtonPayment
+                  key={option.form}
+                  selected={option.selected}
                   type="button"
-                  key={Element?.form}
-                  selected={Element?.selected}
-                  onClick={() => selectePayment(Element)}
+                  onClick={() => {
+                    selectePayment(option);
+                  }}
                 >
-                  {Element?.incone}
-
-                  {Element?.form}
+                  {option.incone}
+                  {option.form}
                 </FormButtonPayment>
-              );
-            })}
-          </GuidanceShoppingPaymentForm>
-          {errors.modo_pagamento && (
-            <MessageFormWarning position={true}>
-              {errors.modo_pagamento.message}
-            </MessageFormWarning>
-          )}
-        </GuidanceShoppingFinancialOperation>
-      </>
+              ))}
+            </GuidanceShoppingPaymentForm>
+            {errors?.modo_pagamento && (
+              <MessageFormWarning
+                top={"0.625rem"}
+                left={"15rem"}
+                position={"relative"}
+                font_size={"1.125rem"}
+                enableControlPosition={true}
+              >
+                {errors?.modo_pagamento?.message}
+              </MessageFormWarning>
+            )}
+          </GuidanceShoppingFinancialOperation>
+        )}
+      />
     );
   }
 );

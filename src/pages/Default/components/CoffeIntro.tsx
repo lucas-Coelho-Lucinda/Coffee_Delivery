@@ -3,20 +3,20 @@ import { defaultTheme } from "../../../../sytles/themes/default";
 import imagePadrao from "../../../assets/foto_padrao_pagina.png";
 import { Coffee, Package, ShoppingCart, Timer } from "@phosphor-icons/react";
 import {
-  CardDefaulLayout,
-  CardTitleAnSubtitle,
   Title,
   SubTitle,
-  PlatformDescriptions,
-  ItemDescription,
   IconBottom,
+  ItemDescription,
+  CardDefaulLayout,
+  PlatformDescriptions,
   CardImageStartOfPage,
+  CardTitleAndSubtitle,
 } from "../sytle";
 
 const CoffeIntro = React.memo(() => {
   return (
     <CardDefaulLayout>
-      <CardTitleAnSubtitle>
+      <CardTitleAndSubtitle>
         <Title>Encontre o café perfeito para qualquer hora do dia</Title>
         <SubTitle>
           Com o Coffee Delivery você recebe seu café onde estiver, a qualquer
@@ -48,7 +48,7 @@ const CoffeIntro = React.memo(() => {
             O café chega fresquinho até você
           </ItemDescription>
         </PlatformDescriptions>
-      </CardTitleAnSubtitle>
+      </CardTitleAndSubtitle>
       <CardImageStartOfPage>
         <img src={imagePadrao} alt="" />
       </CardImageStartOfPage>

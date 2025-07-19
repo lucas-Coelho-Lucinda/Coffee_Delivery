@@ -67,7 +67,7 @@ export const IconBottom = styled.div<propsIconBottom>`
   background: ${(props) => props.color};
 `;
 
-export const CardTitleAnSubtitle = styled.div`
+export const CardTitleAndSubtitle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

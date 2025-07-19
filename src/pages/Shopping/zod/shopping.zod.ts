@@ -1,11 +1,9 @@
 import * as zod from "zod";
 
 const registerOrder = zod.object({
-  UF: zod
-    .string()
-    .regex(/^[A-Za-zÀ-ÿ]+$/, {
-      message: "UF inválido",
-    }),
+  UF: zod.string().regex(/^[A-Za-zÀ-ÿ]+$/, {
+    message: "UF inválido",
+  }),
   cep: zod.string().regex(/^[0-9]{5}-[0-9]{3}$/, {
     message: "CEP inválido. Digite somente números no formato ex: XXXXX-XXX.",
   }),
@@ -32,8 +30,10 @@ const registerOrder = zod.object({
     }),
   complemento: zod.string().optional(),
   modo_pagamento: zod.string({
-    message: "Selecione uma forma de pagamento !"
+    required_error: "Selecione uma forma de pagamento"
+  }).min(1, {
+    message: "Selecione uma forma de pagamento !",
   }),
-})
+});
 
 export default registerOrder;
