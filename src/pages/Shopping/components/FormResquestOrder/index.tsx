@@ -4,25 +4,19 @@ import { MapPinLine } from "@phosphor-icons/react";
 import { defaultTheme } from "../../../../../sytles/themes/default";
 import {
   FormInput,
-  MessageFormWarning,
   CardFormField,
-  CardFieldAndWarning,
+  TitleFormField,
   TextsDefaultForm,
   SubTitleFormField,
-  ShoppingTitleRequested,
   WarningMessageDiv,
-  TitleFormField,
+  MessageFormWarning,
+  CardFieldAndWarning,
+  ShoppingTitleRequested,
 } from "../../sytle";
 import { PropsFormResquestOrder } from "../../types";
 
 export const FormResquestOrder = React.memo(
-  ({
-    errors,
-    control,
-    register,
-    setValue,
-    formEnabled,
-  }: PropsFormResquestOrder) => {
+  ({ errors, control, register, formEnabled }: PropsFormResquestOrder) => {
     return (
       <>
         <ShoppingTitleRequested>Complete seu pedido</ShoppingTitleRequested>
@@ -43,13 +37,14 @@ export const FormResquestOrder = React.memo(
                   <FormInput
                     maxLength={9}
                     type="text"
-                    {...register("cep")}
-                    placeholder="CEP"
                     size={"200px"}
+                    placeholder="CEP"
+                    {...register("cep")}
+                    uppercaseText={false}
                   />
                 )}
               />
-              {errors.cep && (
+              {errors?.cep && (
                 <MessageFormWarning
                   top={""}
                   left={""}
@@ -57,7 +52,7 @@ export const FormResquestOrder = React.memo(
                   font_size={""}
                   enableControlPosition={false}
                 >
-                  {errors.cep.message}
+                  {errors?.cep?.message}
                 </MessageFormWarning>
               )}
             </WarningMessageDiv>
@@ -70,9 +65,10 @@ export const FormResquestOrder = React.memo(
                 render={() => (
                   <FormInput
                     type="text"
-                    {...register("rua")}
-                    placeholder="Rua"
                     size={"538px"}
+                    placeholder="Rua"
+                    {...register("rua")}
+                    uppercaseText={false}
                   />
                 )}
               />
@@ -84,7 +80,7 @@ export const FormResquestOrder = React.memo(
                   font_size={""}
                   enableControlPosition={false}
                 >
-                  {errors.rua.message}
+                  {errors?.rua?.message}
                 </MessageFormWarning>
               )}
             </WarningMessageDiv>
@@ -98,9 +94,10 @@ export const FormResquestOrder = React.memo(
                   <FormInput
                     maxLength={5}
                     type="text"
-                    {...register("numero")}
-                    placeholder="Número"
                     size={"200px"}
+                    placeholder="Número"
+                    uppercaseText={false}
+                    {...register("numero")}
                   />
                 )}
               />
@@ -112,7 +109,7 @@ export const FormResquestOrder = React.memo(
                   font_size={""}
                   enableControlPosition={false}
                 >
-                  {errors.numero.message}
+                  {errors?.numero?.message}
                 </MessageFormWarning>
               )}
             </WarningMessageDiv>
@@ -123,9 +120,10 @@ export const FormResquestOrder = React.memo(
               render={() => (
                 <FormInput
                   type="text"
-                  {...register("complemento")}
-                  placeholder="Complemento"
                   size={"348px"}
+                  uppercaseText={false}
+                  placeholder="Complemento"
+                  {...register("complemento")}
                 />
               )}
             />
@@ -138,13 +136,14 @@ export const FormResquestOrder = React.memo(
                 render={() => (
                   <FormInput
                     type="text"
-                    {...register("bairro")}
-                    placeholder="Bairro"
                     size={"348px"}
+                    placeholder="Bairro"
+                    uppercaseText={false}
+                    {...register("bairro")}
                   />
                 )}
               />
-              {errors.bairro && (
+              {errors?.bairro && (
                 <MessageFormWarning
                   top={""}
                   left={""}
@@ -152,7 +151,7 @@ export const FormResquestOrder = React.memo(
                   font_size={""}
                   enableControlPosition={false}
                 >
-                  {errors.bairro.message}
+                  {errors?.bairro?.message}
                 </MessageFormWarning>
               )}
             </WarningMessageDiv>
@@ -164,13 +163,14 @@ export const FormResquestOrder = React.memo(
                 render={() => (
                   <FormInput
                     type="text"
-                    {...register("cidade")}
-                    placeholder="Cidade"
                     size={"360px"}
+                    placeholder="Cidade"
+                    uppercaseText={false}
+                    {...register("cidade")}
                   />
                 )}
               />
-              {errors.cidade && (
+              {errors?.cidade && (
                 <MessageFormWarning
                   top={""}
                   left={""}
@@ -178,7 +178,7 @@ export const FormResquestOrder = React.memo(
                   font_size={""}
                   enableControlPosition={false}
                 >
-                  {errors.cidade.message}
+                  {errors?.cidade?.message}
                 </MessageFormWarning>
               )}
             </WarningMessageDiv>
@@ -189,18 +189,16 @@ export const FormResquestOrder = React.memo(
                 control={control}
                 render={() => (
                   <FormInput
-                    maxLength={2}
                     type="text"
-                    {...register("UF")}
-                    placeholder="UF"
+                    maxLength={2}
                     size={"20px"}
-                    onChange={(e) =>
-                      setValue("UF", e.target.value.toUpperCase())
-                    }
+                    placeholder="UF"
+                    {...register("UF")}
+                    uppercaseText={true}
                   />
                 )}
               />
-              {errors.UF && (
+              {errors?.UF && (
                 <MessageFormWarning
                   top={""}
                   left={""}
@@ -208,7 +206,7 @@ export const FormResquestOrder = React.memo(
                   font_size={""}
                   enableControlPosition={false}
                 >
-                  {errors.UF.message}
+                  {errors?.UF?.message}
                 </MessageFormWarning>
               )}
             </WarningMessageDiv>

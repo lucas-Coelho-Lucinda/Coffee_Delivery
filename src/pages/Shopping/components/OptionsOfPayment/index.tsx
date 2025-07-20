@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { buttonForm, PropsOptionsOfPayment } from "../../types";
 import {
   FormButtonPayment,
@@ -12,12 +12,10 @@ export const OptionsOfPayment = React.memo(
   ({
     errors,
     control,
-    setValue,
+    setOptions,
     formEnabled,
     availableOperations,
   }: PropsOptionsOfPayment) => {
-    const [options, setOptions] = useState(availableOperations);
-
     const selectePayment = (payment: buttonForm) => {
       setOptions((prevOptions) =>
         prevOptions.map((register) => {
@@ -33,13 +31,9 @@ export const OptionsOfPayment = React.memo(
           };
         })
       );
-
-      setValue("modo_pagamento", payment.selected ? "" : payment.form, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true,
-      });
     };
+
+    
     return (
       <Controller
         control={control}
@@ -50,7 +44,7 @@ export const OptionsOfPayment = React.memo(
             thisformcanbeenabled={formEnabled}
           >
             <GuidanceShoppingPaymentForm>
-              {options.map((option) => (
+              {availableOperations.map((option) => (
                 <FormButtonPayment
                   key={option.form}
                   selected={option.selected}

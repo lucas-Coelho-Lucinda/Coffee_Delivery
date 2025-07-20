@@ -2,8 +2,8 @@ import * as zod from "zod";
 
 const registerOrder = zod.object({
   UF: zod.string().regex(/^[A-Za-zÀ-ÿ]+$/, {
-    message: "UF inválido",
-  }),
+    message: "UF inválida!",
+  }).transform((val)=> val.toLocaleUpperCase()),
   cep: zod.string().regex(/^[0-9]{5}-[0-9]{3}$/, {
     message: "CEP inválido. Digite somente números no formato ex: XXXXX-XXX.",
   }),

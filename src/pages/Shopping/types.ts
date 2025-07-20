@@ -20,6 +20,15 @@ export interface enableFormComponet {
   thisformcanbeenabled: boolean;
 }
 
+export interface formAndresProps {
+  size: string;
+  uppercaseText: boolean;
+}
+
+export interface formButtonPaymenProps {
+  selected: boolean;
+}
+
 export interface propsMessageFormWarning {
   top: string;
   left: string;
@@ -41,6 +50,16 @@ export interface PropsOptionsOfPayment {
   availableOperations: buttonForm[];
   errors: FieldErrors<FormOrderSend>;
   setValue: UseFormSetValue<FormOrderSend>;
+  setOptions: React.Dispatch<
+    React.SetStateAction<
+      {
+        id: ZodMiniUUID;
+        selected: boolean;
+        form: string;
+        incone: JSX.Element;
+      }[]
+    >
+  >;
 }
 
 export interface propsValuesOfOrder {
@@ -50,15 +69,14 @@ export interface propsValuesOfOrder {
 }
 
 export interface propsMenuOfOrdersMaked {
- coffes : CoffeList[];
+  coffes: CoffeList[];
 }
-
 
 export interface propsListOfOrders {
   CoffeList: CoffeList[];
 }
 
-export interface propsDeffaulValueToPay{
+export interface propsDeffaulValueToPay {
   color: string;
   background_color: string;
 }
@@ -66,4 +84,3 @@ export interface propsDeffaulValueToPay{
 export interface propsButtonMoveRegisterProps {
   activePagination: boolean;
 }
-

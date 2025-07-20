@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import registerOrder from "./zod/shopping.zod";
 import { FormOrderSend } from "../../Types/coffe";
@@ -15,13 +15,14 @@ import { ShoppingCards, GuidanceShopping } from "./sytle";
 
 function Shopping() {
   const navigate = useNavigate();
+  const [options, setOptions] = useState(optionsOfPayments);
   const {
     listCoffeesInTheCart,
     setOrderResquetfinish,
     addedSelectedCoffeesToCart,
   } = useContext(CoffesAddedToCartContext);
 
-  const stillHaveCoffesToBuy = listCoffeesInTheCart.length <= 0 ? true : false;
+  const haveNoMoreCoffesToBuy = listCoffeesInTheCart.length <= 0 ? true : false;
 
   const newCycleForm = useForm<FormOrderSend>({
     resolver: zodResolver(registerOrder),
@@ -31,6 +32,7 @@ function Shopping() {
     handleSubmit,
     register,
     setValue,
+    reset,
     control,
     formState: { errors },
   } = newCycleForm;
@@ -52,6 +54,32 @@ function Shopping() {
     refundAllOrder();
   };
 
+  useEffect(() => {
+    if (haveNoMoreCoffesToBuy) {
+      reset();
+      setOptions(optionsOfPayments);
+    }
+
+    const haveOptionSelected = options.findIndex(
+      (option) => option.selected == true
+    );
+
+    if (haveOptionSelected != -1 && haveNoMoreCoffesToBuy == false) {
+      setValue("modo_pagamento", optionsOfPayments[haveOptionSelected]?.form, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+      return;
+    } else {
+      setValue("modo_pagamento", "", {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+    }
+  }, [haveNoMoreCoffesToBuy, options, setValue, reset]);
+
   return (
     <>
       <GuidanceShopping onSubmit={handleSubmit(confirmOrder)}>
@@ -61,14 +89,15 @@ function Shopping() {
             control={control}
             setValue={setValue}
             register={register}
-            formEnabled={stillHaveCoffesToBuy}
+            formEnabled={haveNoMoreCoffesToBuy}
           />
           <OptionsOfPayment
             errors={errors}
             control={control}
             setValue={setValue}
-            formEnabled={stillHaveCoffesToBuy}
-            availableOperations={optionsOfPayments}
+            setOptions={setOptions}
+            formEnabled={haveNoMoreCoffesToBuy}
+            availableOperations={options}
           />
         </ShoppingCards>
         <ShoppingCards>

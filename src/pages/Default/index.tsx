@@ -123,8 +123,8 @@ function LagoutDefault() {
             <CoffeeListToSell
               key={coffe.id}
               coffe={coffe}
-              onAdd={addCoffeeToPurchaseAndMarkAsSelected}
               onChangeAmount={updateCoffeListItem}
+              onAdd={addCoffeeToPurchaseAndMarkAsSelected}
             />
           );
         })}

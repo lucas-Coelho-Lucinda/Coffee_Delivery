@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import {
   enableFormComponet,
+  formAndresProps,
+  formButtonPaymenProps,
   propsDeffaulValueToPay,
   propsMessageFormWarning,
 } from "./types";
@@ -114,15 +116,14 @@ export const GuidanceShoppingPaymentForm = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  //max-width: 640px;
   margin: 20px 40px;
 `;
 
-interface FormAndresProps {
-  size: string;
-}
 
-export const FormInput = styled.input<FormAndresProps>`
+
+export const FormInput = styled.input.withConfig({
+  shouldForwardProp: (prop) => prop !== "uppercaseText",
+})<formAndresProps>`
   outline: 1px solid ${(props) => props.theme["gray-600"]};
   background-color: ${(props) => props.theme["gray-300"]};
   padding: 10px;
@@ -131,6 +132,7 @@ export const FormInput = styled.input<FormAndresProps>`
   width: ${(props) => props.size};
   font-family: "Roboto", sans-serif;
   color: ${(props) => props.theme["gray-1000"]};
+  text-transform: ${(props) => (props.uppercaseText ? "uppercase" : "none")};
   &:focus {
     outline: 1px solid ${(props) => props.theme["yellow-300"]};
   }
@@ -140,75 +142,7 @@ export const FormInput = styled.input<FormAndresProps>`
   }
 `;
 
-export const FormAndresSelect = styled.select<FormAndresProps>`
-  outline: 1px solid ${(props) => props.theme["gray-600"]};
-  background-color: ${(props) => props.theme["gray-300"]};
-  padding: 10px;
-  border: 10px;
-  border-radius: 2px;
-  width: ${(props) => props.size};
-  &:focus {
-    outline: 1px solid ${(props) => props.theme["yellow-300"]};
-  }
-  ::-webkit-input-placeholder {
-    font-family: "Roboto", sans-serif;
-    color: ${(props) => props.theme["gray-700"]};
-  }
-`;
-
-export const Wrapper = styled.div`
-  position: relative;
-  //width: 200px;
-`;
-interface PropsInput {
-  size: string;
-}
-export const Input = styled.input<PropsInput>`
-  width: ${(props) => props.size};
-  padding: 10px;
-  border: 1px solid ${(props) => props.theme["gray-600"]};
-  border-radius: 2px;
-  outline: 1px solid ${(props) => props.theme["gray-600"]};
-  background-color: ${(props) => props.theme["gray-300"]};
-
-  &:focus {
-    outline: none;
-    border-color: ${(props) => props.theme["yellow-300"]};
-  }
-`;
-
-export const Dropdown = styled.ul<{ isOpen: boolean }>`
-  position: relative;
-  top: 100%;
-  width: 100%;
-  color: ${(props) => props.theme["purple-300"]};
-  background: ${(props) => props.theme["white"]};
-  list-style: none;
-  margin: 4px 0 0 0;
-  padding: 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  max-height: ${({ isOpen }) => (isOpen ? "200px" : "0")};
-  overflow-y: auto;
-  opacity: ${({ isOpen }) => (isOpen ? "1" : "0")};
-  transition: all 0.2s ease-in-out;
-  z-index: 10;
-`;
-
-export const OptionItem = styled.li`
-  padding: 10px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${(props) => props.theme["purple-100"]};
-  }
-`;
-
-interface FormButtonPaymenProps {
-  selected: boolean;
-}
-
-export const FormButtonPayment = styled.button<FormButtonPaymenProps>`
+export const FormButtonPayment = styled.button<formButtonPaymenProps>`
   display: flex;
   flex-direction: row;
   justify-content: center;
