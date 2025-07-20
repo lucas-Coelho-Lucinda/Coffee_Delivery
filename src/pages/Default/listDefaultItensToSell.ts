@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 export const listDefaultItensToSell = [
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/expresso_Tradicional.png",
+    img: "/src/assets/CoffePhotos/expresso_Tradicional.png",
     value: "R$ 9,90",
     valueDefault: "R$ 9,90",
     deliveryValue: "R$ 3,50",
@@ -18,7 +18,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/expresso_americano.png",
+    img: "/src/assets/CoffePhotos/expresso_americano.png",
     value: "R$ 20,40",
     valueDefault: "R$ 20,40",
     deliveryValue: "R$ 4,20",
@@ -31,7 +31,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/expresso_cremoso.png",
+    img: "/src/assets/CoffePhotos/expresso_cremoso.png",
     value: "R$ 16,75",
     valueDefault: "R$ 16,75",
     deliveryValue: "R$ 3,90",
@@ -44,7 +44,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/expresso_gelado.png",
+    img: "/src/assets/CoffePhotos/expresso_gelado.png",
     value: "R$ 10,25",
     valueDefault: "R$ 10,25",
     deliveryValue: "R$ 4,10",
@@ -60,7 +60,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/cafe_com_leite.png",
+    img: "/src/assets/CoffePhotos/cafe_com_leite.png",
     value: "R$ 19,90",
     valueDefault: "R$ 19,90",
     deliveryValue: "R$ 5,50",
@@ -76,7 +76,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/latte.png",
+    img: "/src/assets/CoffePhotos/latte.png",
     value: "R$ 30,45",
     valueDefault: "R$ 30,45",
     deliveryValue: "R$ 6,20",
@@ -93,7 +93,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/capuccino.png",
+    img: "/src/assets/CoffePhotos/capuccino.png",
     value: "R$ 40,20",
     valueDefault: "R$ 40,20",
     deliveryValue: "R$ 7,10",
@@ -110,7 +110,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/macchiato.png",
+    img: "/src/assets/CoffePhotos/macchiato.png",
     value: "R$ 15,35",
     valueDefault: "R$ 15,35",
     deliveryValue: "R$ 4,80",
@@ -126,7 +126,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/mocaccino.png",
+    img: "/src/assets/CoffePhotos/mocaccino.png",
     value: "R$ 14,35",
     valueDefault: "R$ 14,35",
     deliveryValue: "R$ 4,50",
@@ -142,7 +142,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/chocolate_quente.png",
+    img: "/src/assets/CoffePhotos/chocolate_quente.png",
     value: "R$ 30,50",
     valueDefault: "R$ 30,50",
     deliveryValue: "R$ 6,90",
@@ -158,7 +158,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/cubano.png",
+    img: "/src/assets/CoffePhotos/cubano.png",
     value: "R$ 80,90",
     valueDefault: "R$ 80,90",
     deliveryValue: "R$ 9,80",
@@ -176,7 +176,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/Arabe.png",
+    img: "/src/assets/CoffePhotos/Arabe.png",
     value: "R$ 95,90",
     valueDefault: "R$ 95,90",
     deliveryValue: "R$ 10,90",
@@ -189,7 +189,7 @@ export const listDefaultItensToSell = [
   },
   {
     id: uuidv4(),
-    img: "/src/assets/Foto_itens/irlandes.png",
+    img: "/src/assets/CoffePhotos/irlandes.png",
     value: "R$ 100,00",
     valueDefault: "R$ 100,00",
     deliveryValue: "R$ 11,50",

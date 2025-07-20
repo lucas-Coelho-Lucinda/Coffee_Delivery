@@ -1,4 +1,3 @@
-import React from "react";
 import { defaultTheme } from "../../../../../sytles/themes/default";
 import imageDefault from "../../../../assets/foto_padrao_pagina.png";
 import { Coffee, Package, ShoppingCart, Timer } from "@phosphor-icons/react";
@@ -13,7 +12,7 @@ import {
   CardTitleAndSubtitle,
 } from "../../sytle";
 
-const CoffeIntro = React.memo(() => {
+const CoffeIntro = () => {
   return (
     <CardDefaulLayout>
       <CardTitleAndSubtitle>
@@ -53,7 +52,7 @@ const CoffeIntro = React.memo(() => {
         <img src={imageDefault}/>
       </CardImageStartOfPage>
     </CardDefaulLayout>
-  );
-});
+  )
+};
 
 export default CoffeIntro;
