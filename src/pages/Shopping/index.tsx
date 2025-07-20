@@ -6,20 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { optionsOfPayments } from "./optionsOfPayments";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import Pagination from "../../components/Pagination";
-import NoMoreOrders from "./components/NoMoreOrders";
-import { FormResquestOrder } from "./components/FormResquestOrder";
 import { OptionsOfPayment } from "./components/OptionsOfPayment";
-
+import { FormResquestOrder } from "./components/FormResquestOrder";
 import { CoffesAddedToCartContext } from "../../context/coffesAddedToCart";
 
-import {
-  ShoppingCards,
-  GuidanceShopping,
-  ShoppingTitleRequested,
-  GuidanceShoppingListOfCoffes,
-} from "./sytle";
-import { ValuesOfOrder } from "./components/ValuesOfOrder";
+import { MenuOfOrdersMaked } from "./components/MenuOfOrdersMaked";
+import { ShoppingCards, GuidanceShopping } from "./sytle";
 
 function Shopping() {
   const navigate = useNavigate();
@@ -29,7 +21,7 @@ function Shopping() {
     addedSelectedCoffeesToCart,
   } = useContext(CoffesAddedToCartContext);
 
-  const enable = listCoffeesInTheCart.length <= 0 ? true : false;
+  const stillHaveCoffesToBuy = listCoffeesInTheCart.length <= 0 ? true : false;
 
   const newCycleForm = useForm<FormOrderSend>({
     resolver: zodResolver(registerOrder),
@@ -69,30 +61,18 @@ function Shopping() {
             control={control}
             setValue={setValue}
             register={register}
-            formEnabled={enable}
+            formEnabled={stillHaveCoffesToBuy}
           />
           <OptionsOfPayment
             errors={errors}
             control={control}
             setValue={setValue}
-            formEnabled={enable}
+            formEnabled={stillHaveCoffesToBuy}
             availableOperations={optionsOfPayments}
           />
         </ShoppingCards>
         <ShoppingCards>
-          <ShoppingTitleRequested>Cafés selecionados</ShoppingTitleRequested>
-          <GuidanceShoppingListOfCoffes>
-            {listCoffeesInTheCart.length > 0 ? (
-              <>
-                <Pagination
-                  CoffeList={listCoffeesInTheCart}
-                />
-                <ValuesOfOrder/>
-              </>
-            ) : (
-              <NoMoreOrders />
-            )}
-          </GuidanceShoppingListOfCoffes>
+          <MenuOfOrdersMaked coffes={listCoffeesInTheCart} />
         </ShoppingCards>
       </GuidanceShopping>
     </>

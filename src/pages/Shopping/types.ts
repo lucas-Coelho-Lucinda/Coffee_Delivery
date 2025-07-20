@@ -1,5 +1,5 @@
 import { JSX } from "react";
-import { FormOrderSend } from "../../Types/coffe";
+import { CoffeList, FormOrderSend } from "../../Types/coffe";
 import {
   Control,
   FieldErrors,
@@ -48,3 +48,22 @@ export interface propsValuesOfOrder {
   valueTotalOfAllItensSome: string;
   valueTotalOfAllDeliveryValue: string;
 }
+
+export interface propsMenuOfOrdersMaked {
+ coffes : CoffeList[];
+}
+
+
+export interface propsListOfOrders {
+  CoffeList: CoffeList[];
+}
+
+export interface propsDeffaulValueToPay{
+  color: string;
+  background_color: string;
+}
+
+export interface propsButtonMoveRegisterProps {
+  activePagination: boolean;
+}
+

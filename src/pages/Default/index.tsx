@@ -1,7 +1,7 @@
 import { CoffeList } from "../../Types/coffe";
 
-import CoffeIntro from "./components/coffeIntro";
-import { CoffeeListToSell } from "./components/coffeeListToSell";
+import CoffeIntro from "./components/CoffeIntro";
+import { CoffeeListToSell } from "./components/CoffeeListToSell";
 
 import { listDefaultItensToSell } from "./listDefaultItensToSell";
 

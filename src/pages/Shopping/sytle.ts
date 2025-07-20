@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { enableFormComponet, propsMessageFormWarning } from "./types";
+import {
+  enableFormComponet,
+  propsDeffaulValueToPay,
+  propsMessageFormWarning,
+} from "./types";
 
 export const GuidanceShopping = styled.form`
   display: flex;
@@ -11,8 +15,9 @@ export const GuidanceShopping = styled.form`
   margin: 8%;
 `;
 
-
-export const MessageFormWarning = styled.div<propsMessageFormWarning>`
+export const MessageFormWarning = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "enableControlPosition",
+})<propsMessageFormWarning>`
   font-family: "Roboto", sans-serif;
   color: ${(props) => props.theme["yellow-300"]};
   padding: 0px;
@@ -41,8 +46,6 @@ export const ShoppingTitleRequested = styled.h1`
   color: ${(props) => props.theme["gray-1000"]};
 `;
 
-
-
 export const CardFormField = styled.div.withConfig({
   shouldForwardProp: (prop) => prop !== "thisformcanbeenabled",
 })<enableFormComponet>`
@@ -62,7 +65,8 @@ export const CardFormField = styled.div.withConfig({
     pointer-events: none;
     user-select: none;
     opacity: 0.7;
-    `: ""}
+    `
+      : ""}
 `;
 
 export const CardFieldAndWarning = styled.div`
@@ -252,7 +256,7 @@ export const TextAddAmount = styled.span`
   color: ${(props) => props.theme["gray-1000"]};
 `;
 
-export const TextValueOfCoffeToPay = styled.span`
+export const ValueCurrentOfCoffeToPay = styled.span`
   font-family: "Roboto", sans-serif;
   font-weight: bolder;
   margin-left: 5px;
@@ -277,10 +281,9 @@ export const TitleFormField = styled.p`
 
 export const SubTitleFormField = styled.p`
   margin-left: 35px;
-    font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
   background-color: ${(props) => props.theme["gray-200"]};
 `;
-
 
 export const GuidanceShoppingListOfCoffes = styled.div`
   display: flex;
@@ -347,21 +350,24 @@ export const GuidanceButtonsOptionValues = styled.div`
   gap: 10px;
 `;
 
-export const DeffaulValueToPay = styled.div`
+export const DeffaulValueToPay = styled.span.withConfig({
+  shouldForwardProp: (prop) => prop !== "color" && prop !== "background_color",
+})<propsDeffaulValueToPay>`
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 5px;
   padding: 0.35rem;
   border-radius: 8px;
-  width: fit-content;
+  width: max-content;
   height: 18px;
   overflow: hidden; /* Impede que o conteúdo ultrapasse os limites */
   box-sizing: border-box;
   font-family: "Baloo 2", sans-serif;
   font-size: 15px;
-  color: ${(props) => props.theme["yellow-300"]};
-  background-color: ${(props) => props.theme["yellow-100"]};
+  font-weight: bolder;
+  color: ${(props) => props.theme[props.color]};
+  background-color: ${(props) => props.theme[props.background_color]};
 `;
 
 export const CarButtonAddOrRemoveAmount = styled.div`
@@ -470,9 +476,14 @@ export const PaymentTotalizersResults = styled.p`
   }
 `;
 
-export const TitlePageAntCountOrders = styled.p`
-  font-family: "Baloo 2", sans-serif;
+export const TitlePageAntCountPages = styled.p`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
   font-size: 17px;
+  font-family: "Baloo 2", sans-serif;
   color: ${(props) => props.theme["gray-1000"]};
 `;
 

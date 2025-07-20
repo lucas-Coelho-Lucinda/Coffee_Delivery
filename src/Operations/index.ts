@@ -1,7 +1,7 @@
 import { evaluate } from "mathjs";
 import { CoffeList } from "../Types/coffe";
 
-const handdleGeneratingCafeItemList = (
+const updateListOfCoffeToBuy = (
   coffeSell: CoffeList[],
   idCoffeSelected: string,
   increase: boolean
@@ -16,8 +16,14 @@ const handdleGeneratingCafeItemList = (
       const updatedItem = {
         ...item,
         amount: newAmount,
-        value: CalculateValuesOfCoffeForItem({ ...item, amount: newAmount }, true),
-        deliveryValue: CalculateValuesDeliveryOfCoffeForItem({ ...item, amount: newAmount }, true),
+        value: CalculateValuesOfCoffeForItem(
+          { ...item, amount: newAmount },
+          true
+        ),
+        deliveryValue: CalculateValuesDeliveryOfCoffeForItem(
+          { ...item, amount: newAmount },
+          true
+        ),
       };
 
       return updatedItem;
@@ -34,7 +40,6 @@ const handdleGeneratingCafeItemList = (
     total,
   };
 };
-
 
 const CalculateValuesOfCoffeForItem = (
   coffeSell: CoffeList,
@@ -62,9 +67,9 @@ const CalculateValuesDeliveryOfCoffeForItem = (
   multiply: boolean
 ) => {
   const valorOpcaoDelivery = coffeSell.deliveryValueDefault
-    .replace(/\s/g, "") // remove espaços
-    .replace("R$", "") // remove símbolo
-    .replace(/\./g, "") // remove pontos de milhar
+    .replace(/\s/g, "")
+    .replace("R$", "")
+    .replace(/\./g, "")
     .replace(",", ".");
 
   const addValueDelivery = multiply
@@ -89,16 +94,16 @@ const CalculateValuesOfCoffeForAllItens = (coffeSell: CoffeList[]) => {
   coffeSell.forEach((item) => {
     const valueOfCoffe = parseFloat(
       item?.value
-        .replace(/\s/g, "") // remove espaços
-        .replace("R$", "") // remove símbolo
-        .replace(/\./g, "") // remove pontos de milhar
+        .replace(/\s/g, "")
+        .replace("R$", "")
+        .replace(/\./g, "")
         .replace(",", ".")
     );
     const valueOfDeliveryValue = parseFloat(
       item?.deliveryValue
-        .replace(/\s/g, "") // remove espaços
-        .replace("R$", "") // remove símbolo
-        .replace(/\./g, "") // remove pontos de milhar
+        .replace(/\s/g, "")
+        .replace("R$", "")
+        .replace(/\./g, "")
         .replace(",", ".")
     );
     const calcule = valueOfCoffe;
@@ -144,7 +149,7 @@ const CalculateValuesOfCoffeForAllItens = (coffeSell: CoffeList[]) => {
 };
 
 export {
-  handdleGeneratingCafeItemList,
+  updateListOfCoffeToBuy,
   CalculateValuesOfCoffeForItem,
   CalculateValuesOfCoffeForAllItens,
   CalculateValuesDeliveryOfCoffeForItem,

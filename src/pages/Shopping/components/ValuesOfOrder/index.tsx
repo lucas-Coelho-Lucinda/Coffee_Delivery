@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import {
   ButtonFinalizeOrder,
+  PaymentTotalizersTitle,
   OrderListOfCoffesToSell,
+  PaymentTotalizersResults,
   OrderListOfPaymentResultsTitle,
   OrderListOfPaymentTotalizersTitle,
-  PaymentTotalizersResults,
-  PaymentTotalizersTitle,
 } from "../../sytle";
 import { CoffesAddedToCartContext } from "../../../../context/coffesAddedToCart";
 
@@ -22,13 +22,13 @@ export const ValuesOfOrder = React.memo(() => {
         </OrderListOfPaymentTotalizersTitle>
         <OrderListOfPaymentResultsTitle>
           <PaymentTotalizersResults>
-            {totalOfValueCoffe.valueTotalOfAllPayment}
-          </PaymentTotalizersResults>
-          <PaymentTotalizersResults>
             {totalOfValueCoffe.valueTotalOfAllItensSome}
           </PaymentTotalizersResults>
           <PaymentTotalizersResults>
             {totalOfValueCoffe.valueTotalOfAllDeliveryValue}
+          </PaymentTotalizersResults>
+          <PaymentTotalizersResults>
+            {totalOfValueCoffe.valueTotalOfAllPayment}
           </PaymentTotalizersResults>
         </OrderListOfPaymentResultsTitle>
       </OrderListOfCoffesToSell>
