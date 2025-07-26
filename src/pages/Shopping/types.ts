@@ -12,8 +12,14 @@ export interface PropsFormResquestOrder {
   formEnabled: boolean;
   errors: FieldErrors<FormOrderSend>;
   register: UseFormRegister<FormOrderSend>;
-  setValue: UseFormSetValue<FormOrderSend>;
   control: Control<FormOrderSend, FormOrderSend>;
+}
+
+export interface MenuFormOfPaymentProps {
+  errors: FieldErrors<FormOrderSend>;
+  control: Control<FormOrderSend, FormOrderSend>;
+  setValue: UseFormSetValue<FormOrderSend>;
+  formEnabled: boolean;
 }
 
 export interface enableFormComponet {
@@ -29,6 +35,10 @@ export interface formButtonPaymenProps {
   selected: boolean;
 }
 
+
+export interface MenuOfOrdersMakedProps {
+  disableFormOptionAndResetForm: (Actived: boolean) => void
+}
 export interface propsMessageFormWarning {
   top: string;
   left: string;
@@ -49,7 +59,6 @@ export interface PropsOptionsOfPayment {
   control: Control<FormOrderSend>;
   availableOperations: buttonForm[];
   errors: FieldErrors<FormOrderSend>;
-  setValue: UseFormSetValue<FormOrderSend>;
   setOptions: React.Dispatch<
     React.SetStateAction<
       {
@@ -62,16 +71,17 @@ export interface PropsOptionsOfPayment {
   >;
 }
 
+export interface paginationOfOrdersProps {
+  infoOfPageOrder: CoffeList;
+  removeItemofListCoffe: (id: string) => void;
+  addNewListCoffeUpdate: (id: string, increse: boolean) => void;
+}
+
 export interface propsValuesOfOrder {
   valueTotalOfAllPayment: string;
   valueTotalOfAllItensSome: string;
   valueTotalOfAllDeliveryValue: string;
 }
-
-export interface propsMenuOfOrdersMaked {
-  coffes: CoffeList[];
-}
-
 export interface propsListOfOrders {
   CoffeList: CoffeList[];
 }

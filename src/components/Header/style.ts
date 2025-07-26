@@ -68,7 +68,7 @@ export const TextNameAndStateAcronym = styled.p`
   color: ${(props) => props.theme["purple-300"]};
 `;
 
-export const Boxkindness = styled.div`
+export const CafeShoppingCart = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;

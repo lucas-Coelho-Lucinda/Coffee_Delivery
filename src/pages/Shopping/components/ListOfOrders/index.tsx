@@ -1,55 +1,30 @@
-import { propsListOfOrders } from "../../types";
 import { CoffeList } from "../../../../Types/coffe";
 
 import { useCallback, useContext, useMemo, useState } from "react";
-import { defaultTheme } from "../../../../../sytles/themes/default";
-import { CoffesAddedToCartContext } from "../../../../context/coffesAddedToCart";
+
+import { ArrowFatLineLeft, ArrowFatLineRight } from "@phosphor-icons/react";
 
 import {
-  Trash,
-  ArrowFatLineLeft,
-  ArrowFatLineRight,
-} from "@phosphor-icons/react";
-
-import {
-  updateListOfCoffeToBuy,
   CalculateValuesOfCoffeForAllItens,
+  updateListOfCoffeToBuy,
 } from "../../../../Operations";
 
+import { TitlePageAntCountPages } from "../../sytle";
 import { AlignPagination, ButtonMoveRegister } from "./style";
-import {
-  TextAddAmount,
-  RemoveShopping,
-  LineSepareitor,
-  DeffaulValueToPay,
-  DescriptionOfCoffe,
-  ButtonAddAmountPlus,
-  ItensValuesOfOrders,
-  OrderDescritionOption,
-  OrderOptionCoffesToBuy,
-  TitlePageAntCountPages,
-  ButtonAddAmountNegative,
-  ValueCurrentOfCoffeToPay,
-  CarButtonAddOrRemoveAmount,
-  GuidanceButtonsOptionValues,
-  CardImageOptionsCoffesToSell,
-} from "../../sytle";
+import { CoffesAddedToCartContext } from "../../../../context/coffesAddedToCart";
+import { PageItemOfOrder } from "./components/PageItemOfOrder";
+import { propsListOfOrders } from "../../types";
 
 const ListOfOrders = ({ CoffeList }: propsListOfOrders) => {
   const ITEMS_PER_PAGE = 2;
+
+  const { addedSelectedCoffeesToCart } = useContext(CoffesAddedToCartContext);
 
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(CoffeList?.length / ITEMS_PER_PAGE);
 
   const needToEnablePagination = CoffeList?.length >= 3 ? true : false;
-
-  const currentItems = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return CoffeList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [currentPage, CoffeList]);
-
-  const { addedSelectedCoffeesToCart } = useContext(CoffesAddedToCartContext);
 
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages) {
@@ -63,16 +38,10 @@ const ListOfOrders = ({ CoffeList }: propsListOfOrders) => {
     }
   }, [currentPage]);
 
-  const addNewListCoffeUpdate = useCallback(
-    (coffes: CoffeList[], id: string, increse: boolean) => {
-      const updateListOfOrder = updateListOfCoffeToBuy(coffes, id, increse);
-      addedSelectedCoffeesToCart(
-        updateListOfOrder?.list,
-        updateListOfOrder?.list.length
-      );
-    },
-    [addedSelectedCoffeesToCart]
-  );
+  const currentItems = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return CoffeList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [currentPage, CoffeList]);
 
   const refundOrder = useCallback(
     (id: string): CoffeList[] => {
@@ -91,6 +60,15 @@ const ListOfOrders = ({ CoffeList }: propsListOfOrders) => {
     [CoffeList]
   );
 
+  const addNewListCoffeUpdate = useCallback(
+    (id: string, increse: boolean) => {
+      const updateListOfOrder = updateListOfCoffeToBuy(CoffeList, id, increse);
+      //setListOfCurrentOrder(updateListOfOrder.list);
+      addedSelectedCoffeesToCart(updateListOfOrder?.list);
+    },
+    [CoffeList, addedSelectedCoffeesToCart]
+  );
+
   const removeItemofListCoffe = useCallback(
     (id: string) => {
       const listCoffeWithoutItemRemoved = refundOrder(id).filter(
@@ -99,82 +77,21 @@ const ListOfOrders = ({ CoffeList }: propsListOfOrders) => {
       const resultsOfNewList = CalculateValuesOfCoffeForAllItens(
         listCoffeWithoutItemRemoved
       );
+      addedSelectedCoffeesToCart(resultsOfNewList.CoffeesInTheCart);
       setCurrentPage(1);
-      addedSelectedCoffeesToCart(
-        resultsOfNewList.coffeSell,
-        resultsOfNewList.coffeSell?.length
-      );
     },
-    [refundOrder, addedSelectedCoffeesToCart]
+    [addedSelectedCoffeesToCart, refundOrder]
   );
 
   return (
     <>
-      {currentItems.map((coffeSell, index) => (
-        <div key={`${coffeSell?.id}-${index}`}>
-          <OrderOptionCoffesToBuy>
-            <CardImageOptionsCoffesToSell>
-              <img src={coffeSell?.img} />
-            </CardImageOptionsCoffesToSell>
-            <OrderDescritionOption>
-              <DescriptionOfCoffe>{coffeSell?.title}</DescriptionOfCoffe>
-              <GuidanceButtonsOptionValues>
-                <CarButtonAddOrRemoveAmount>
-                  <ButtonAddAmountNegative
-                    type="button"
-                    onClick={() =>
-                      addNewListCoffeUpdate(CoffeList, coffeSell?.id, false)
-                    }
-                  >
-                    -
-                  </ButtonAddAmountNegative>
-                  <TextAddAmount>{coffeSell?.amount}</TextAddAmount>
-                  <ButtonAddAmountPlus
-                    type="button"
-                    onClick={() =>
-                      addNewListCoffeUpdate(CoffeList, coffeSell?.id, true)
-                    }
-                  >
-                    +
-                  </ButtonAddAmountPlus>
-                </CarButtonAddOrRemoveAmount>
-                <RemoveShopping
-                  onClick={() => removeItemofListCoffe(coffeSell?.id)}
-                >
-                  <Trash size={16} color={defaultTheme["purple-500"]} />
-                  REMOVER
-                </RemoveShopping>
-              </GuidanceButtonsOptionValues>
-            </OrderDescritionOption>
-            <ItensValuesOfOrders>
-              <DeffaulValueToPay
-                color="yellow-300"
-                background_color="yellow-100"
-              >
-                <p>Apartir de:</p>
-                {coffeSell?.valueDefault}
-              </DeffaulValueToPay>
-              <DeffaulValueToPay
-                color="yellow-300"
-                background_color="yellow-100"
-              >
-                <p>Frete fixo:</p>
-                {coffeSell?.deliveryValueDefault}
-              </DeffaulValueToPay>
-              <DeffaulValueToPay
-                color="purple-300"
-                background_color="purple-100"
-              >
-                <p>Frete atual:</p>
-                {coffeSell?.deliveryValue}
-              </DeffaulValueToPay>
-              <ValueCurrentOfCoffeToPay>
-                {coffeSell?.value}
-              </ValueCurrentOfCoffeToPay>
-            </ItensValuesOfOrders>
-          </OrderOptionCoffesToBuy>
-          <LineSepareitor />
-        </div>
+      {currentItems.map((coffeSell) => (
+        <PageItemOfOrder
+          key={coffeSell?.id}
+          infoOfPageOrder={coffeSell}
+          addNewListCoffeUpdate={addNewListCoffeUpdate}
+          removeItemofListCoffe={removeItemofListCoffe}
+        />
       ))}
 
       <AlignPagination>
@@ -186,9 +103,9 @@ const ListOfOrders = ({ CoffeList }: propsListOfOrders) => {
           <ArrowFatLineLeft size={24} />
         </ButtonMoveRegister>
 
-        {CoffeList.length >= 3 && (
+        {needToEnablePagination && (
           <TitlePageAntCountPages>
-            <span>página: {currentPage}</span>
+            <span>página {currentPage}</span>
             <span>de {totalPages} páginas</span>
           </TitlePageAntCountPages>
         )}

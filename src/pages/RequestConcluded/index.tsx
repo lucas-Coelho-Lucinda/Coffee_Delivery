@@ -30,11 +30,11 @@ export function RequestConcluded() {
             <TextInfo>
               Entrega em{" "}
               <InforMark>
-                {orderResquetfinish.rua}, {orderResquetfinish.numero}
+                {orderResquetfinish?.orderInfo?.rua}, {orderResquetfinish?.orderInfo?.numero}
               </InforMark>
                <br />
-              {orderResquetfinish.bairro}{" "}
-              - {orderResquetfinish.cidade}, {orderResquetfinish.UF}
+              {orderResquetfinish?.orderInfo?.bairro}{" "}
+              - {orderResquetfinish?.orderInfo?.cidade}, {orderResquetfinish?.orderInfo?.UF}
             </TextInfo>
           </IconAndTextsInfos>
           <IconAndTextsInfos>
@@ -54,7 +54,7 @@ export function RequestConcluded() {
             <TextInfo>
               Pagamento na entrega
               <br />
-              <InforMark>{orderResquetfinish.modo_pagamento}</InforMark>
+              <InforMark>{orderResquetfinish?.orderInfo?.modo_pagamento}</InforMark>
             </TextInfo>
           </IconAndTextsInfos>
         </OrderInfosOfRequest>

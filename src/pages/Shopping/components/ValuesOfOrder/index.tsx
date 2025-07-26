@@ -10,7 +10,7 @@ import {
 import { CoffesAddedToCartContext } from "../../../../context/coffesAddedToCart";
 
 export const ValuesOfOrder = React.memo(() => {
-  const { totalOfValueCoffe } = useContext(CoffesAddedToCartContext);
+  const { lisItensOfOrder } = useContext(CoffesAddedToCartContext);
 
   return (
     <>
@@ -22,13 +22,13 @@ export const ValuesOfOrder = React.memo(() => {
         </OrderListOfPaymentTotalizersTitle>
         <OrderListOfPaymentResultsTitle>
           <PaymentTotalizersResults>
-            {totalOfValueCoffe.valueTotalOfAllItensSome}
+            {lisItensOfOrder?.valueTotalOfAllItensSome}
           </PaymentTotalizersResults>
           <PaymentTotalizersResults>
-            {totalOfValueCoffe.valueTotalOfAllDeliveryValue}
+            {lisItensOfOrder?.valueTotalOfAllDeliveryValue}
           </PaymentTotalizersResults>
           <PaymentTotalizersResults>
-            {totalOfValueCoffe.valueTotalOfAllPayment}
+            {lisItensOfOrder?.valueTotalOfAllPayment}
           </PaymentTotalizersResults>
         </OrderListOfPaymentResultsTitle>
       </OrderListOfCoffesToSell>

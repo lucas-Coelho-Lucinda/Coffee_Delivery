@@ -33,11 +33,8 @@ const updateListOfCoffeToBuy = (
     }
   });
 
-  const total = CalculateValuesOfCoffeForAllItens(updatedList);
-
   return {
     list: updatedList,
-    total,
   };
 };
 
@@ -84,27 +81,32 @@ const CalculateValuesDeliveryOfCoffeForItem = (
   return formatador.format(addValueDelivery);
 };
 
+function convertValueToNumberForCaulcule(value: string) {
+  return parseFloat(
+    value
+      .replace(/\s/g, "")
+      .replace("R$", "")
+      .replace(/\./g, "")
+      .replace(",", ".")
+  );
+}
+
+function convertValueInCommercialCurrency(value: number) {
+  return value.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+}
+
 const CalculateValuesOfCoffeForAllItens = (coffeSell: CoffeList[]) => {
   let totalOfItems = 0;
   let totalOfPayment = 0;
   let totalOfItemsDelivery = 0;
-  let valueTotalOfAllItensSome = "";
-  let valueTotalOfAllDeliveryValue = "";
-  let valueTotalOfAllPayment = "";
-  coffeSell.forEach((item) => {
-    const valueOfCoffe = parseFloat(
-      item?.value
-        .replace(/\s/g, "")
-        .replace("R$", "")
-        .replace(/\./g, "")
-        .replace(",", ".")
-    );
-    const valueOfDeliveryValue = parseFloat(
-      item?.deliveryValue
-        .replace(/\s/g, "")
-        .replace("R$", "")
-        .replace(/\./g, "")
-        .replace(",", ".")
+
+  for (let i = 0; i < coffeSell?.length; i++) {
+    const valueOfCoffe = convertValueToNumberForCaulcule(coffeSell[i]?.value);
+    const valueOfDeliveryValue = convertValueToNumberForCaulcule(
+      coffeSell[i]?.deliveryValue
     );
     const calcule = valueOfCoffe;
     totalOfItems += calcule;
@@ -114,37 +116,15 @@ const CalculateValuesOfCoffeForAllItens = (coffeSell: CoffeList[]) => {
 
     const calculePayment = calcule + calculeDelivery;
     totalOfPayment += calculePayment;
-
-    const valueTotalOfAllItens = totalOfItems.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-
-    const valueTotalOfAllItensDelivery = totalOfItemsDelivery.toLocaleString(
-      "pt-BR",
-      {
-        style: "currency",
-        currency: "BRL",
-      }
-    );
-
-    const valueTotalOfAllItensPayment = totalOfPayment.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-
-    valueTotalOfAllItensSome = valueTotalOfAllItens;
-
-    valueTotalOfAllDeliveryValue = valueTotalOfAllItensDelivery;
-
-    valueTotalOfAllPayment = valueTotalOfAllItensPayment;
-  });
+  }
 
   return {
-    coffeSell: coffeSell,
-    valueTotalOfAllPayment: valueTotalOfAllPayment,
-    valueTotalOfAllItensSome: valueTotalOfAllItensSome,
-    valueTotalOfAllDeliveryValue: valueTotalOfAllDeliveryValue,
+    CoffeesInTheCart: coffeSell,
+    haveNoMoreCoffesToBuy: !coffeSell.length,
+    valueTotalOfAllPayment: convertValueInCommercialCurrency(totalOfPayment),
+    valueTotalOfAllItensSome: convertValueInCommercialCurrency(totalOfItems),
+    valueTotalOfAllDeliveryValue:
+      convertValueInCommercialCurrency(totalOfItemsDelivery),
   };
 };
 

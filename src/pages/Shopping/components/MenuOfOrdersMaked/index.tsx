@@ -1,21 +1,30 @@
 import NoMoreOrders from "../NoMoreOrders";
 import ListOfOrders from "../ListOfOrders";
 import { ValuesOfOrder } from "../ValuesOfOrder";
-import { propsMenuOfOrdersMaked } from "../../types";
-
 import {
-  GuidanceShoppingListOfCoffes,
   ShoppingTitleRequested,
+  GuidanceShoppingListOfCoffes,
 } from "../../sytle";
+import { CoffesAddedToCartContext } from "../../../../context/coffesAddedToCart";
+import { useContext, useEffect } from "react";
+import { MenuOfOrdersMakedProps } from "../../types";
+export const MenuOfOrdersMaked = ({
+  disableFormOptionAndResetForm,
+}: MenuOfOrdersMakedProps) => {
+  const { lisItensOfOrder } = useContext(CoffesAddedToCartContext);
 
-export const MenuOfOrdersMaked = ({ coffes }: propsMenuOfOrdersMaked) => {
+  useEffect(() => {
+    if (lisItensOfOrder?.CoffeesInTheCart.length === 0) {
+      disableFormOptionAndResetForm(true);
+    }
+  }, [lisItensOfOrder?.CoffeesInTheCart]);
   return (
     <>
       <ShoppingTitleRequested>Cafés selecionados</ShoppingTitleRequested>
       <GuidanceShoppingListOfCoffes>
-        {coffes.length > 0 ? (
+        {lisItensOfOrder.CoffeesInTheCart?.length > 0 ? (
           <>
-            <ListOfOrders CoffeList={coffes} />
+            <ListOfOrders CoffeList={lisItensOfOrder.CoffeesInTheCart} />
             <ValuesOfOrder />
           </>
         ) : (

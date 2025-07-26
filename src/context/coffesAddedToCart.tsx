@@ -1,14 +1,26 @@
-import { ReactNode, useState, createContext, useCallback } from "react";
-import { CoffeList, FormOrderSend, totalCalculeOrder } from "../Types/coffe";
+import { ReactNode, createContext, useCallback, useState } from "react";
+import { CoffeList, FormOrderSend } from "../Types/coffe";
 import { CalculateValuesOfCoffeForAllItens } from "../Operations";
 
+interface listAllInforOfOrderProps {
+  CoffeesInTheCart: CoffeList[];
+  valueTotalOfAllPayment: string;
+  valueTotalOfAllItensSome: string;
+  valueTotalOfAllDeliveryValue: string;
+}
+
+interface orderResquetfinishProps {
+  orderInfo: FormOrderSend;
+}
+
 interface CoffesAddedToCartContextProps {
-  numberOfCoffeesInTheCart: number;
-  listCoffeesInTheCart: CoffeList[];
-  totalOfValueCoffe: totalCalculeOrder;
-  addedSelectedCoffeesToCart: (coffe: CoffeList[], countNumber: number) => void;
-  orderResquetfinish: FormOrderSend;
-  setOrderResquetfinish: React.Dispatch<FormOrderSend>;
+  lisItensOfOrder: listAllInforOfOrderProps;
+  orderResquetfinish: orderResquetfinishProps;
+  saveOrder: (order: orderResquetfinishProps) => void;
+  addedSelectedCoffeesToCart: (coffe: CoffeList[]) => void;
+  setlisItensOfOrder: React.Dispatch<
+    React.SetStateAction<listAllInforOfOrderProps>
+  >;
 }
 
 interface CoffesAddedToCartContextProviderProps {
@@ -21,54 +33,50 @@ export const CoffesAddedToCartContext =
     {} as CoffesAddedToCartContextProps
   );
 
-export function CoffesAddedToCartContextProvider({
+export const CoffesAddedToCartContextProvider = ({
   children,
-}: CoffesAddedToCartContextProviderProps) {
-  const [numberOfCoffeesInTheCart, setNumberOfCoffeesInTheCart] =
-    useState<number>(0);
-  const [listCoffeesInTheCart, setListCoffeesInTheCart] = useState<CoffeList[]>(
-    []
-  );
+}: CoffesAddedToCartContextProviderProps) => {
+  const [orderResquetfinish, setOrderResquetfinish] =
+    useState<orderResquetfinishProps>({
+      orderInfo: {
+        UF: "",
+        cep: "",
+        rua: "",
+        numero: "",
+        bairro: "",
+        cidade: "",
+        modo_pagamento: "",
+        complemento: "",
+      },
+    });
 
-  const [orderResquetfinish, setOrderResquetfinish] = useState<FormOrderSend>({
-    UF: "",
-    cep: "",
-    rua: "",
-    numero: "",
-    bairro: "",
-    cidade: "",
-    modo_pagamento: "",
-    complemento: "",
-  });
-  const [totalOfValueCoffe, setTotalOfValueCoffe] = useState<totalCalculeOrder>(
-    {
+  const [lisItensOfOrder, setlisItensOfOrder] =
+    useState<listAllInforOfOrderProps>({
+      CoffeesInTheCart: [],
       valueTotalOfAllPayment: "",
       valueTotalOfAllItensSome: "",
       valueTotalOfAllDeliveryValue: "",
-    }
-  );
+    });
 
-  const addedSelectedCoffeesToCart = useCallback(
-    (coffe: CoffeList[], countNumber: number) => {
-      const results = CalculateValuesOfCoffeForAllItens(coffe);
-      setTotalOfValueCoffe(results);
-      setListCoffeesInTheCart(coffe);
-      setNumberOfCoffeesInTheCart(countNumber);
-    },
-    []
-  );
+  const saveOrder = (order: orderResquetfinishProps) => {
+    setOrderResquetfinish(order);
+  };
+
+  const addedSelectedCoffeesToCart = useCallback((coffe: CoffeList[]) => {
+    const results = CalculateValuesOfCoffeForAllItens(coffe);
+    setlisItensOfOrder(results);
+  }, []);
   return (
     <CoffesAddedToCartContext.Provider
       value={{
-        addedSelectedCoffeesToCart,
-        totalOfValueCoffe,
-        listCoffeesInTheCart,
-        numberOfCoffeesInTheCart,
+        saveOrder,
+        lisItensOfOrder,
         orderResquetfinish,
-        setOrderResquetfinish,
+        setlisItensOfOrder,
+        addedSelectedCoffeesToCart,
       }}
     >
       {children}
     </CoffesAddedToCartContext.Provider>
   );
-}
+};

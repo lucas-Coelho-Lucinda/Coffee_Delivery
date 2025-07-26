@@ -19,22 +19,21 @@ import {
   CardTitleOfOptionsCoffesList,
 } from "./sytle";
 
-
 function LagoutDefault() {
   const [coffesListState, setCoffesList] = useState<CoffeList[]>(
     listDefaultItensToSell
   );
 
-  const { addedSelectedCoffeesToCart, listCoffeesInTheCart } = useContext(
+  const { addedSelectedCoffeesToCart, lisItensOfOrder } = useContext(
     CoffesAddedToCartContext
   );
 
   useEffect(() => {
     try {
-      if (listCoffeesInTheCart.length > 0) {
+      if (lisItensOfOrder?.CoffeesInTheCart?.length > 0) {
         setCoffesList((ListOfcoffes) => {
           return ListOfcoffes.map((coffe) => {
-            const isThisCoffeAddToOrder = listCoffeesInTheCart.find(
+            const isThisCoffeAddToOrder = lisItensOfOrder?.CoffeesInTheCart.find(
               (coffeMarkAsSelected) => coffeMarkAsSelected.id === coffe.id
             );
             return isThisCoffeAddToOrder ? isThisCoffeAddToOrder : coffe;
@@ -47,7 +46,7 @@ function LagoutDefault() {
         error
       );
     }
-  }, [listCoffeesInTheCart]);
+  }, [lisItensOfOrder]);
 
   const addCoffeeToPurchaseAndMarkAsSelected = useCallback(
     (idCoffeSelected: string) => {
@@ -62,10 +61,7 @@ function LagoutDefault() {
           const litsOfcoffeMarkAsSelected = listofAllCoffes.filter(
             (coffe) => coffe.is_selected == true
           );
-          addedSelectedCoffeesToCart(
-            litsOfcoffeMarkAsSelected,
-            litsOfcoffeMarkAsSelected.length
-          );
+          addedSelectedCoffeesToCart(litsOfcoffeMarkAsSelected);
           return listofAllCoffes;
         });
       } catch (error) {
