@@ -1,29 +1,33 @@
 import { useContext } from "react";
-import { CoffesAddedToCartContext } from "../../../context/coffesAddedToCart";
+import { NavLink } from "react-router-dom";
+import { ShoppingCart } from "@phosphor-icons/react";
+import { defaultTheme } from "../../../../sytles/themes/default";
+import { CoffesAddedToCartContext } from "../../../context/coffesAddedContext";
 import {
   CafeShoppingCart,
   Countekindness,
   DivCount,
   DivShoppingCart,
 } from "../style";
-import { ShoppingCart } from "@phosphor-icons/react";
-import { NavLink } from "react-router-dom";
-import { defaultTheme } from "../../../../sytles/themes/default";
 
 export const ShoppingButton = () => {
-  const { lisItensOfOrder } = useContext(CoffesAddedToCartContext);
+  const { coffesAndPaymentCurrent } = useContext(CoffesAddedToCartContext);
+
+  const stillHavaCoffesToBuy =
+    coffesAndPaymentCurrent?.CoffeesInTheCart?.length > 0 ? true : false;
+
   return (
     <CafeShoppingCart>
-      {lisItensOfOrder.CoffeesInTheCart?.length > 0 && (
+      {stillHavaCoffesToBuy && (
         <DivCount>
           <Countekindness>
-            {lisItensOfOrder.CoffeesInTheCart?.length}
+            {coffesAndPaymentCurrent?.CoffeesInTheCart.length}
           </Countekindness>
         </DivCount>
       )}
 
       <DivShoppingCart>
-        {lisItensOfOrder.CoffeesInTheCart?.length > 0 ? (
+        {stillHavaCoffesToBuy ? (
           <NavLink to={"/Shopping"}>
             <ShoppingCart
               size={24}
