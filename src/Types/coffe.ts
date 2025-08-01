@@ -1,9 +1,3 @@
-export interface totalCalculeOrder {
-  valueTotalOfAllPayment: string;
-  valueTotalOfAllItensSome: string;
-  valueTotalOfAllDeliveryValue: string;
-}
-
 export interface FormOrderSend {
   UF: string;
   cep: string;
