@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import registerOrder from "./zod/shopping.zod";
+import { registerOrder } from "./zod/shopping.zod";
 import { FormOrderSend } from "../../Types/coffe";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -7,20 +7,20 @@ import { ShoppingCards, GuidanceShopping } from "./sytle";
 import { MenuOfOrdersMaked } from "./components/MenuOfOrdersMaked";
 import { MenuFormOfPayment } from "./components/MenuFormOfPayment";
 import { FormResquestOrder } from "./components/FormResquestOrder";
-import { useContext, useState } from "react";
-import { CoffesAddedToCartContext } from "../../context/coffesAddedToCart";
+import { useCallback, useContext, useState } from "react";
+import { CoffesAddedToCartContext } from "../../context/coffesAddedContext";
 
 function Shopping() {
   const navigate = useNavigate();
 
   const [formMustBeDeactivated, FormMustBeDeactivated] = useState(false);
-  const { saveOrder, addedSelectedCoffeesToCart } = useContext(
+  const { saveOrderCurrent, addedSelectedCoffeesToCart } = useContext(
     CoffesAddedToCartContext
   );
 
-  function refundAllOrder() {
+  const refundAllOrder = useCallback(() => {
     addedSelectedCoffeesToCart([]);
-  }
+  }, [addedSelectedCoffeesToCart]);
 
   const newCycleForm = useForm<FormOrderSend>({
     resolver: zodResolver(registerOrder),
@@ -35,25 +35,30 @@ function Shopping() {
     formState: { errors },
   } = newCycleForm;
 
-  const confirmOrder: SubmitHandler<FormOrderSend> = (OrderResquest) => {
-    saveOrder({
-      orderInfo: OrderResquest,
-    });
-    refundAllOrder();
-    navigate("/Request", { replace: true });
-  };
+  const confirmOrder: SubmitHandler<FormOrderSend> = useCallback(
+    (OrderResquest) => {
+      saveOrderCurrent({
+        orderInfo: OrderResquest,
+      });
+      refundAllOrder();
+      navigate("/Request", { replace: true });
+    },
+    [navigate, refundAllOrder, saveOrderCurrent]
+  );
 
-  const disableFormOptionAndResetForm = (Actived: boolean) => {
-    reset();
-    FormMustBeDeactivated(Actived);
-  };
+  const disableFormOptionAndResetForm = useCallback(
+    (Actived: boolean) => {
+      reset();
+      FormMustBeDeactivated(Actived);
+    },
+    [reset]
+  );
 
   return (
     <GuidanceShopping onSubmit={handleSubmit(confirmOrder)}>
       <ShoppingCards>
         <FormResquestOrder
           errors={errors}
-          control={control}
           register={register}
           formEnabled={formMustBeDeactivated}
         />
@@ -65,7 +70,9 @@ function Shopping() {
         />
       </ShoppingCards>
       <ShoppingCards>
-        <MenuOfOrdersMaked disableFormOptionAndResetForm={disableFormOptionAndResetForm} />
+        <MenuOfOrdersMaked
+          disableFormOptionAndResetForm={disableFormOptionAndResetForm}
+        />
       </ShoppingCards>
     </GuidanceShopping>
   );

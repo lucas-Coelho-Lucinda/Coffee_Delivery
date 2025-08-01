@@ -1,11 +1,13 @@
+import { useCallback } from "react";
+import { Controller } from "react-hook-form";
 import { buttonForm, PropsOptionsOfPayment } from "../../types";
+
 import {
   FormButtonPayment,
-  GuidanceShoppingFinancialOperation,
-  GuidanceShoppingPaymentForm,
   MessageFormWarning,
+  GuidanceShoppingPaymentForm,
+  GuidanceShoppingFinancialOperation,
 } from "../../sytle";
-import { Controller } from "react-hook-form";
 
 export const OptionsOfPayment = ({
   errors,
@@ -14,23 +16,25 @@ export const OptionsOfPayment = ({
   formEnabled,
   availableOperations,
 }: PropsOptionsOfPayment) => {
-
-  const selectePayment = (payment: buttonForm) => {
-    setOptions((prevOptions) =>
-      prevOptions.map((register) => {
-        if (register.form === payment.form && register.selected == false) {
+  const selectePayment = useCallback(
+    (payment: buttonForm) => {
+      setOptions((prevOptions) =>
+        prevOptions.map((register) => {
+          if (register.form === payment.form && register.selected == false) {
+            return {
+              ...register,
+              selected: true,
+            };
+          }
           return {
             ...register,
-            selected: true,
+            selected: false,
           };
-        }
-        return {
-          ...register,
-          selected: false,
-        };
-      })
-    );
-  };
+        })
+      );
+    },
+    [setOptions]
+  );
 
   return (
     <Controller

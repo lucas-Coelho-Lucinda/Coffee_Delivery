@@ -1,57 +1,41 @@
 import { JSX } from "react";
+import { ZodMiniUUID } from "zod/v4-mini";
 import { CoffeList, FormOrderSend } from "../../Types/coffe";
+
 import {
   Control,
+  FieldError,
   FieldErrors,
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
-import { ZodMiniUUID } from "zod/v4-mini";
+
+import {
+  totalCalculeOrder,
+  listAllInforOfOrderProps,
+} from "../../context/types";
 
 export interface PropsFormResquestOrder {
   formEnabled: boolean;
   errors: FieldErrors<FormOrderSend>;
   register: UseFormRegister<FormOrderSend>;
-  control: Control<FormOrderSend, FormOrderSend>;
+}
+
+export interface PropsInputForm {
+  name: keyof FormOrderSend;
+  size: string;
+  maxLength?: number;
+  placeholder: string;
+  uppercaseText: boolean;
+  error?: FieldError | undefined;
+  register: UseFormRegister<FormOrderSend>;
 }
 
 export interface MenuFormOfPaymentProps {
-  errors: FieldErrors<FormOrderSend>;
-  control: Control<FormOrderSend, FormOrderSend>;
-  setValue: UseFormSetValue<FormOrderSend>;
   formEnabled: boolean;
-}
-
-export interface enableFormComponet {
-  thisformcanbeenabled: boolean;
-}
-
-export interface formAndresProps {
-  size: string;
-  uppercaseText: boolean;
-}
-
-export interface formButtonPaymenProps {
-  selected: boolean;
-}
-
-
-export interface MenuOfOrdersMakedProps {
-  disableFormOptionAndResetForm: (Actived: boolean) => void
-}
-export interface propsMessageFormWarning {
-  top: string;
-  left: string;
-  position: string;
-  font_size: string;
-  enableControlPosition: boolean;
-}
-
-export interface buttonForm {
-  id: ZodMiniUUID;
-  form: string;
-  selected: boolean;
-  incone: JSX.Element;
+  errors: FieldErrors<FormOrderSend>;
+  setValue: UseFormSetValue<FormOrderSend>;
+  control: Control<FormOrderSend, FormOrderSend>;
 }
 
 export interface PropsOptionsOfPayment {
@@ -71,6 +55,14 @@ export interface PropsOptionsOfPayment {
   >;
 }
 
+export interface propsMessageFormWarning {
+  top: string;
+  left: string;
+  position: string;
+  font_size: string;
+  enableControlPosition: boolean;
+}
+
 export interface paginationOfOrdersProps {
   infoOfPageOrder: CoffeList;
   removeItemofListCoffe: (id: string) => void;
@@ -83,7 +75,15 @@ export interface propsValuesOfOrder {
   valueTotalOfAllDeliveryValue: string;
 }
 export interface propsListOfOrders {
-  CoffeList: CoffeList[];
+  coffes: listAllInforOfOrderProps;
+  salveCurrentPaymentOfOrder: (payment: totalCalculeOrder) => void;
+}
+
+export interface buttonForm {
+  id: ZodMiniUUID;
+  form: string;
+  selected: boolean;
+  incone: JSX.Element;
 }
 
 export interface propsDeffaulValueToPay {
@@ -91,6 +91,27 @@ export interface propsDeffaulValueToPay {
   background_color: string;
 }
 
+export interface MenuOfOrdersMakedProps {
+  disableFormOptionAndResetForm: (Actived: boolean) => void;
+}
+
 export interface propsButtonMoveRegisterProps {
   activePagination: boolean;
+}
+
+export interface propsValuesOfOrder {
+  listCurrentForCalculate: CoffeList[];
+}
+
+export interface enableFormComponet {
+  thisformcanbeenabled: boolean;
+}
+
+export interface formAndresProps {
+  size: string;
+  uppercaseText: boolean;
+}
+
+export interface formButtonPaymenProps {
+  selected: boolean;
 }

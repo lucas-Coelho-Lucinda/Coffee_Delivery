@@ -25,7 +25,7 @@ export const ButtonMoveRegister = styled.button.withConfig({
   padding: 0.2rem;
   cursor: pointer;
 
-  ${(props) => (props.activePagination == true ? "" : `display: none;`)}
+  ${(props) => (props.activePagination == true ? `cursor: not-allowed` : `display: none;`)}
 
   &:active {
     transform: scale(0.95);

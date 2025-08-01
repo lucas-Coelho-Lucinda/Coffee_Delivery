@@ -1,10 +1,12 @@
+import { NavLink } from "react-router-dom";
+
 import { ArrowCircleLeft, Coffee } from "@phosphor-icons/react";
+
 import {
   ButtonGoBackOrder,
   LayoutRetornMenu,
   TitleToWarningGobackMenu,
 } from "../../sytle";
-import { NavLink } from "react-router-dom";
 
 const NoMoreOrders = () => {
   return (

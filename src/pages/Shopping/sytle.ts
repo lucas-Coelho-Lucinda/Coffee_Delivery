@@ -119,8 +119,6 @@ export const GuidanceShoppingPaymentForm = styled.div`
   margin: 20px 40px;
 `;
 
-
-
 export const FormInput = styled.input.withConfig({
   shouldForwardProp: (prop) => prop !== "uppercaseText",
 })<formAndresProps>`
@@ -173,12 +171,21 @@ export const FormButtonPayment = styled.button<formButtonPaymenProps>`
 export const ButtonAddAmountPlus = styled.button`
   font-family: "Roboto", sans-serif;
   font-size: 20px;
+  padding: 4px;
+  outline: none;
+  border: none;
   color: ${(props) => props.theme["purple-300"]};
   background: transparent;
   border: none;
   cursor: pointer;
 
   &:active {
+    transform: scale(0.95);
+    background: ${(props) => props.theme["gray-500"]};
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus-visible {
     transform: scale(0.95);
     background: ${(props) => props.theme["gray-500"]};
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
@@ -320,11 +327,19 @@ export const CarButtonAddOrRemoveAmount = styled.div`
 export const ButtonAddAmountNegative = styled.button`
   font-family: "Roboto", sans-serif;
   font-size: 25px;
+  padding: 4px;
   color: ${(props) => props.theme["purple-300"]};
   background: transparent;
-  border: none;
   cursor: pointer;
+  outline: none;
+  border: none;
   &:active {
+    transform: scale(0.95);
+    background: ${(props) => props.theme["gray-500"]};
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+   &:focus-visible {
     transform: scale(0.95);
     background: ${(props) => props.theme["gray-500"]};
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);

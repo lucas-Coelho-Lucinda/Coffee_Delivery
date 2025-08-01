@@ -1,30 +1,43 @@
+import { propsListOfOrders } from "../../types";
+
 import { CoffeList } from "../../../../Types/coffe";
 
-import { useCallback, useContext, useMemo, useState } from "react";
+import { TitlePageAntCountPages } from "../../sytle";
+
+import { AlignPagination, ButtonMoveRegister } from "./style";
+
+import { PageItemOfOrder } from "./components/PageItemOfOrder";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { commitCoffeesAndReturnValues } from "../../../../Backup";
+
+import { listAllInforOfOrderProps } from "../../../../context/types";
 
 import { ArrowFatLineLeft, ArrowFatLineRight } from "@phosphor-icons/react";
 
 import {
-  CalculateValuesOfCoffeForAllItens,
+  calculateValuesOfCoffeForAllItens,
   updateListOfCoffeToBuy,
 } from "../../../../Operations";
 
-import { TitlePageAntCountPages } from "../../sytle";
-import { AlignPagination, ButtonMoveRegister } from "./style";
-import { CoffesAddedToCartContext } from "../../../../context/coffesAddedToCart";
-import { PageItemOfOrder } from "./components/PageItemOfOrder";
-import { propsListOfOrders } from "../../types";
-
-const ListOfOrders = ({ CoffeList }: propsListOfOrders) => {
+const ListOfOrders = ({
+  coffes,
+  salveCurrentPaymentOfOrder,
+}: propsListOfOrders) => {
   const ITEMS_PER_PAGE = 2;
-
-  const { addedSelectedCoffeesToCart } = useContext(CoffesAddedToCartContext);
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(CoffeList?.length / ITEMS_PER_PAGE);
+  const [localCoffees, setLocalCoffees] = useState<CoffeList[]>([]);
 
-  const needToEnablePagination = CoffeList?.length >= 3 ? true : false;
+  useEffect(() => {
+    setLocalCoffees(coffes?.CoffeesInTheCart);
+  }, [coffes]);
+
+  const totalPages = Math.ceil(
+    coffes?.CoffeesInTheCart?.length / ITEMS_PER_PAGE
+  );
 
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages) {
@@ -38,49 +51,107 @@ const ListOfOrders = ({ CoffeList }: propsListOfOrders) => {
     }
   }, [currentPage]);
 
-  const currentItems = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return CoffeList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [currentPage, CoffeList]);
+  const needToEnablePagination =
+    coffes?.CoffeesInTheCart?.length >= 3 ? true : false;
 
-  const refundOrder = useCallback(
-    (id: string): CoffeList[] => {
-      return CoffeList.map((elemento) =>
-        elemento?.id === id
-          ? {
-              ...elemento,
-              amount: 1,
-              is_selected: false,
-              value: elemento?.valueDefault,
-              deliveryValue: elemento?.deliveryValueDefault,
-            }
-          : elemento
-      );
+  const currentItems = useMemo(() => {
+    try {
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      return localCoffees.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    } catch (error) {
+      console.log("erro on splice register of coffelist", error);
+      return [];
+    }
+  }, [currentPage, localCoffees]);
+
+   const UpdataPaymentAndCoffeList = useCallback(
+    (
+      coffesUpdate: listAllInforOfOrderProps,
+      activedReloadOfRegister: boolean
+    ) => {
+      try {
+        salveCurrentPaymentOfOrder({
+          valueTotalOfAllPayment: coffesUpdate.valueTotalOfAllPayment,
+          valueTotalOfAllItensSome: coffesUpdate.valueTotalOfAllItensSome,
+          valueTotalOfAllDeliveryValue:
+            coffesUpdate.valueTotalOfAllDeliveryValue,
+        });
+        commitCoffeesAndReturnValues(
+          coffesUpdate.CoffeesInTheCart,
+          activedReloadOfRegister
+        );
+      } catch (error) {
+        console.log("error on funtion UpdataPaymentAndCoffeList", error);
+      }
     },
-    [CoffeList]
+    [salveCurrentPaymentOfOrder]
   );
 
   const addNewListCoffeUpdate = useCallback(
     (id: string, increse: boolean) => {
-      const updateListOfOrder = updateListOfCoffeToBuy(CoffeList, id, increse);
-      //setListOfCurrentOrder(updateListOfOrder.list);
-      addedSelectedCoffeesToCart(updateListOfOrder?.list);
+      try {
+        setLocalCoffees((prev) => {
+          const listCoffeUpdate = updateListOfCoffeToBuy(prev, id, increse);
+          UpdataPaymentAndCoffeList(listCoffeUpdate, false);
+          return listCoffeUpdate?.CoffeesInTheCart;
+        });
+      } catch (error) {
+        console.log("error on function addNewListCoffeUpdate", error);
+        return [];
+      }
     },
-    [CoffeList, addedSelectedCoffeesToCart]
+    [UpdataPaymentAndCoffeList]
   );
+
+  const refundOrder = useCallback(
+    (id: string) => {
+      const returningOrdertOriginalSettings = (): CoffeList[] => {
+        try {
+          return localCoffees.map((elemento) =>
+            elemento?.id === id
+              ? {
+                  ...elemento,
+                  amount: 1,
+                  is_selected: false,
+                  value: elemento?.valueDefault,
+                  deliveryValue: elemento?.deliveryValueDefault,
+                }
+              : elemento
+          );
+        } catch (error) {
+          console.log(
+            "erro on function returningOrdertOriginalSettings",
+            error
+          );
+          return [];
+        }
+      };
+
+      const returnOfRefundOrder = returningOrdertOriginalSettings();
+
+      return returnOfRefundOrder;
+    },
+    [localCoffees]
+  );
+  
 
   const removeItemofListCoffe = useCallback(
     (id: string) => {
-      const listCoffeWithoutItemRemoved = refundOrder(id).filter(
-        (item) => item?.id !== id
-      );
-      const resultsOfNewList = CalculateValuesOfCoffeForAllItens(
-        listCoffeWithoutItemRemoved
-      );
-      addedSelectedCoffeesToCart(resultsOfNewList.CoffeesInTheCart);
-      setCurrentPage(1);
+      try {
+        const listCoffeWithoutItemRemoved = refundOrder(id).filter(
+          (item) => item?.id !== id
+        );
+        const resultsOfNewList = calculateValuesOfCoffeForAllItens(
+          listCoffeWithoutItemRemoved
+        );
+        UpdataPaymentAndCoffeList(resultsOfNewList, true);
+        setLocalCoffees(resultsOfNewList.CoffeesInTheCart);
+        setCurrentPage(1);
+      } catch (error) {
+        console.log("error on function removeItemofListCoffe", error);
+      }
     },
-    [addedSelectedCoffeesToCart, refundOrder]
+    [UpdataPaymentAndCoffeList, refundOrder]
   );
 
   return (
