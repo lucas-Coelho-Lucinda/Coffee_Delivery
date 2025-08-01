@@ -21,30 +21,30 @@ function LagoutDefault() {
     CoffesAddedToCartContext
   );
 
-  useEffect(() => {
-    try {
-      setCoffesList((ListOfcoffes) => {
-        return ListOfcoffes.map((coffe) => {
-          if (!coffesAndPaymentCurrent.CoffeesInTheCart) return coffe;
+useEffect(() => {
+  try {
+    setCoffesList((ListOfcoffes) => {
+      if (!coffesAndPaymentCurrent.CoffeesInTheCart) return ListOfcoffes;
 
-          const coffeSaveAsSelected =
-            coffesAndPaymentCurrent.CoffeesInTheCart.find(
-              (select) =>
-                select.is_selected == true && coffe.title == select.title
-            );
+      const newList = ListOfcoffes.map((coffe) => {
+        const matchingCoffees = coffesAndPaymentCurrent.CoffeesInTheCart.filter(
+          (select) => select.title === coffe.title
+        );
 
-          const optionsOfCoffesCurrent = coffeSaveAsSelected ?? coffe;
+        const coffeSaveAsSelected =
+          matchingCoffees.find((c) => c.is_selected) ?? matchingCoffees[0];
 
-          return optionsOfCoffesCurrent;
-        });
+        return coffeSaveAsSelected ?? coffe;
       });
-    } catch (error) {
-      console.error(
-        "Error when trying to update list of coffees added to purchase:",
-        error
-      );
-    }
-  }, [coffesAndPaymentCurrent, coffesAndPaymentCurrent.CoffeesInTheCart]);
+      return newList.sort((a, b) => Number(b.is_selected) - Number(a.is_selected));
+    });
+  } catch (error) {
+    console.error(
+      "Error when trying to update list of coffees added to purchase:",
+      error
+    );
+  }
+}, [coffesAndPaymentCurrent, coffesAndPaymentCurrent.CoffeesInTheCart]);
 
   const addCoffeeToPurchaseAndMarkAsSelected = useCallback(
     (idCoffeSelected: string) => {
