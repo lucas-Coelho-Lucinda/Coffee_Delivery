@@ -1,42 +1,18 @@
-import { ReactNode, createContext, useCallback, useState } from "react";
-import { CoffeList, FormOrderSend } from "../Types/coffe";
-import { CalculateValuesOfCoffeForAllItens } from "../Operations";
+import { CoffeList } from "../Types/coffe";
+import { CoffesAddedToCartContext } from "./coffesAddedContext";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { commitCoffeesAndReturnValues, saveOrderFinished } from "../Backup";
 
-interface listAllInforOfOrderProps {
-  CoffeesInTheCart: CoffeList[];
-  valueTotalOfAllPayment: string;
-  valueTotalOfAllItensSome: string;
-  valueTotalOfAllDeliveryValue: string;
-}
-
-interface orderResquetfinishProps {
-  orderInfo: FormOrderSend;
-}
-
-interface CoffesAddedToCartContextProps {
-  lisItensOfOrder: listAllInforOfOrderProps;
-  orderResquetfinish: orderResquetfinishProps;
-  saveOrder: (order: orderResquetfinishProps) => void;
-  addedSelectedCoffeesToCart: (coffe: CoffeList[]) => void;
-  setlisItensOfOrder: React.Dispatch<
-    React.SetStateAction<listAllInforOfOrderProps>
-  >;
-}
-
-interface CoffesAddedToCartContextProviderProps {
-  children: ReactNode;
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const CoffesAddedToCartContext =
-  createContext<CoffesAddedToCartContextProps>(
-    {} as CoffesAddedToCartContextProps
-  );
+import {
+  orderResquetfinishProps,
+  listAllInforOfOrderProps,
+  coffesAddedToCartContextProviderProps,
+} from "./types";
 
 export const CoffesAddedToCartContextProvider = ({
   children,
-}: CoffesAddedToCartContextProviderProps) => {
-  const [orderResquetfinish, setOrderResquetfinish] =
+}: coffesAddedToCartContextProviderProps) => {
+  const [orderResquetfinish, setOrderResquetfinishCurrent] =
     useState<orderResquetfinishProps>({
       orderInfo: {
         UF: "",
@@ -45,12 +21,34 @@ export const CoffesAddedToCartContextProvider = ({
         numero: "",
         bairro: "",
         cidade: "",
-        modo_pagamento: "",
         complemento: "",
+        modo_pagamento: "",
       },
     });
 
-  const [lisItensOfOrder, setlisItensOfOrder] =
+  const saveOrderCurrent = useCallback((order: orderResquetfinishProps) => {
+    setOrderResquetfinishCurrent(order);
+    saveOrderFinished(order);
+  }, []);
+
+  useEffect(() => {
+    const onStorageChange = () => {
+      try {
+        const data = localStorage.getItem("currentOrder");
+        const list: orderResquetfinishProps = data ? JSON.parse(data) : [];
+        setOrderResquetfinishCurrent(list);
+      } catch (error) {
+        console.error("Error updating order:", error);
+      }
+    };
+    window.addEventListener("changeOrder", onStorageChange);
+
+    return () => {
+      window.removeEventListener("changeOrder", onStorageChange);
+    };
+  }, [saveOrderCurrent]);
+
+  const [coffesAndPaymentCurrent, setCoffesAndPaymentCurrent] =
     useState<listAllInforOfOrderProps>({
       CoffeesInTheCart: [],
       valueTotalOfAllPayment: "",
@@ -58,24 +56,70 @@ export const CoffesAddedToCartContextProvider = ({
       valueTotalOfAllDeliveryValue: "",
     });
 
-  const saveOrder = (order: orderResquetfinishProps) => {
-    setOrderResquetfinish(order);
+  const saveCoffeesCurrent = useCallback((coffe: listAllInforOfOrderProps) => {
+    setCoffesAndPaymentCurrent(coffe);
+  }, []);
+
+  useEffect(() => {
+    const listOfCurrentlySafeCoffee =
+      localStorage.getItem("currentListOfCoffe");
+    const listCoffesSave = listOfCurrentlySafeCoffee
+      ? JSON.parse(listOfCurrentlySafeCoffee)
+      : [];
+
+    requestAnimationFrame(() => {
+      saveCoffeesCurrent(listCoffesSave);
+    });
+
+    const onStorageChange = () => {
+      try {
+        const currentListCoffeSave = localStorage.getItem("currentListOfCoffe");
+
+        const list: listAllInforOfOrderProps = currentListCoffeSave
+          ? JSON.parse(currentListCoffeSave)
+          : [];
+        setCoffesAndPaymentCurrent(list);
+      } catch (error) {
+        console.error("Error updating coffee list:", error);
+      }
+    };
+
+    window.addEventListener("coffeListChanged", onStorageChange);
+    window.addEventListener("storage", onStorageChange);
+
+    return () => {
+      window.removeEventListener("coffeListChanged", onStorageChange);
+      window.removeEventListener("storage", onStorageChange);
+    };
+  }, [saveCoffeesCurrent]);
+
+  const makeBackupOfAllListOfCoffes = (coffes: CoffeList[]) => {
+    commitCoffeesAndReturnValues(coffes, true);
   };
 
-  const addedSelectedCoffeesToCart = useCallback((coffe: CoffeList[]) => {
-    const results = CalculateValuesOfCoffeForAllItens(coffe);
-    setlisItensOfOrder(results);
+  const addedSelectedCoffeesToCart = useCallback((coffes: CoffeList[]) => {
+    makeBackupOfAllListOfCoffes(coffes);
   }, []);
+
+  const value = useMemo(
+    () => ({
+      saveOrderCurrent,
+      saveCoffeesCurrent,
+      orderResquetfinish,
+      coffesAndPaymentCurrent,
+      addedSelectedCoffeesToCart,
+    }),
+    [
+      saveOrderCurrent,
+      saveCoffeesCurrent,
+      orderResquetfinish,
+      coffesAndPaymentCurrent,
+      addedSelectedCoffeesToCart,
+    ]
+  );
+
   return (
-    <CoffesAddedToCartContext.Provider
-      value={{
-        saveOrder,
-        lisItensOfOrder,
-        orderResquetfinish,
-        setlisItensOfOrder,
-        addedSelectedCoffeesToCart,
-      }}
-    >
+    <CoffesAddedToCartContext.Provider value={value}>
       {children}
     </CoffesAddedToCartContext.Provider>
   );
