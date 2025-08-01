@@ -16,72 +16,98 @@ const updateListOfCoffeToBuy = (
       const updatedItem = {
         ...item,
         amount: newAmount,
-        value: CalculateValuesOfCoffeForItem(
-          { ...item, amount: newAmount },
-          true
+        value: calculateValuesOfCoffeForItem(
+          increase,
+          newAmount,
+          item.valueDefault
         ),
-        deliveryValue: CalculateValuesDeliveryOfCoffeForItem(
-          { ...item, amount: newAmount },
-          true
+        deliveryValue: calculateValuesOfCoffeForItem(
+          increase,
+          newAmount,
+          item.deliveryValueDefault
         ),
       };
 
       return updatedItem;
     } catch (error) {
-      console.error("Erro ao avaliar expressão matemática:", error);
+      console.error("error update value of list the coffes to buy:", error);
       return item;
     }
   });
 
-  return {
-    list: updatedList,
-  };
+  const resultsUpdateList = calculateValuesOfCoffeForAllItens(updatedList);
+
+  return resultsUpdateList;
 };
 
-const CalculateValuesOfCoffeForItem = (
-  coffeSell: CoffeList,
-  multiply: boolean
+const calculateValuesOfCoffeForItem = (
+  multiply: boolean,
+  amount: number,
+  currencyValue: string
 ) => {
-  const valor = coffeSell.valueDefault
-    .replace(/\s/g, "") // remove espaços
-    .replace("R$", "") // remove símbolo
-    .replace(/\./g, "") // remove pontos de milhar
-    .replace(",", ".");
+  try {
+    const numericFormatValue = currencyValue
+      .replace(/\s/g, "")
+      .replace("R$", "")
+      .replace(/\./g, "")
+      .replace(",", ".");
 
-  const addValue = multiply
-    ? evaluate(`${valor} * ${coffeSell.amount}`)
-    : evaluate(`${valor}`);
+    const addValue = multiply
+      ? evaluate(`${numericFormatValue} * ${amount}`)
+      : evaluate(`${numericFormatValue}`);
 
-  const formatador = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 2,
-  });
-  return formatador.format(addValue);
-};
-const CalculateValuesDeliveryOfCoffeForItem = (
-  coffeSell: CoffeList,
-  multiply: boolean
-) => {
-  const valorOpcaoDelivery = coffeSell.deliveryValueDefault
-    .replace(/\s/g, "")
-    .replace("R$", "")
-    .replace(/\./g, "")
-    .replace(",", ".");
-
-  const addValueDelivery = multiply
-    ? evaluate(`${valorOpcaoDelivery} * ${coffeSell.amount}`)
-    : evaluate(`${valorOpcaoDelivery}`);
-
-  const formatador = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 2,
-  });
-  return formatador.format(addValueDelivery);
+    const formatador = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 2,
+    });
+    return formatador.format(addValue);
+  } catch (error) {
+    console.error("error in to calcule value of coffe:", error);
+    return "";
+  }
 };
 
-function convertValueToNumberForCaulcule(value: string) {
+const calculateValuesOfCoffeForAllItens = (coffeSell: CoffeList[]) => {
+  try {
+    let totalOfItems = 0;
+    let totalOfPayment = 0;
+    let totalOfItemsDelivery = 0;
+
+    for (let i = 0; i < coffeSell?.length; i++) {
+      const valueOfCoffe = convertValueToNumberForCaulcule(coffeSell[i]?.value);
+      const valueOfDeliveryValue = convertValueToNumberForCaulcule(
+        coffeSell[i]?.deliveryValue
+      );
+      const calcule = valueOfCoffe;
+      totalOfItems += calcule;
+
+      const calculeDelivery = valueOfDeliveryValue;
+      totalOfItemsDelivery += calculeDelivery;
+
+      const calculePayment = calcule + calculeDelivery;
+      totalOfPayment += calculePayment;
+    }
+
+    return {
+      CoffeesInTheCart: coffeSell,
+      valueTotalOfAllPayment: convertValueInCommercialCurrency(totalOfPayment),
+      valueTotalOfAllItensSome: convertValueInCommercialCurrency(totalOfItems),
+      valueTotalOfAllDeliveryValue:
+        convertValueInCommercialCurrency(totalOfItemsDelivery),
+    };
+  } catch (error) {
+    console.log("erro calcule value of all order requested ", error);
+    return {
+      CoffeesInTheCart: [],
+      valueTotalOfAllPayment: "",
+      valueTotalOfAllItensSome: "",
+      valueTotalOfAllDeliveryValue: "",
+    };
+  }
+};
+
+const convertValueToNumberForCaulcule = (value: string) => {
   return parseFloat(
     value
       .replace(/\s/g, "")
@@ -89,48 +115,17 @@ function convertValueToNumberForCaulcule(value: string) {
       .replace(/\./g, "")
       .replace(",", ".")
   );
-}
+};
 
-function convertValueInCommercialCurrency(value: number) {
+const convertValueInCommercialCurrency = (value: number) => {
   return value.toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL",
   });
-}
-
-const CalculateValuesOfCoffeForAllItens = (coffeSell: CoffeList[]) => {
-  let totalOfItems = 0;
-  let totalOfPayment = 0;
-  let totalOfItemsDelivery = 0;
-
-  for (let i = 0; i < coffeSell?.length; i++) {
-    const valueOfCoffe = convertValueToNumberForCaulcule(coffeSell[i]?.value);
-    const valueOfDeliveryValue = convertValueToNumberForCaulcule(
-      coffeSell[i]?.deliveryValue
-    );
-    const calcule = valueOfCoffe;
-    totalOfItems += calcule;
-
-    const calculeDelivery = valueOfDeliveryValue;
-    totalOfItemsDelivery += calculeDelivery;
-
-    const calculePayment = calcule + calculeDelivery;
-    totalOfPayment += calculePayment;
-  }
-
-  return {
-    CoffeesInTheCart: coffeSell,
-    haveNoMoreCoffesToBuy: !coffeSell.length,
-    valueTotalOfAllPayment: convertValueInCommercialCurrency(totalOfPayment),
-    valueTotalOfAllItensSome: convertValueInCommercialCurrency(totalOfItems),
-    valueTotalOfAllDeliveryValue:
-      convertValueInCommercialCurrency(totalOfItemsDelivery),
-  };
 };
 
 export {
   updateListOfCoffeToBuy,
-  CalculateValuesOfCoffeForItem,
-  CalculateValuesOfCoffeForAllItens,
-  CalculateValuesDeliveryOfCoffeForItem,
+  calculateValuesOfCoffeForItem,
+  calculateValuesOfCoffeForAllItens,
 };
