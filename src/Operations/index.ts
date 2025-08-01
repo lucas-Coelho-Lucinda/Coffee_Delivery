@@ -16,13 +16,8 @@ const updateListOfCoffeToBuy = (
       const updatedItem = {
         ...item,
         amount: newAmount,
-        value: calculateValuesOfCoffeForItem(
-          increase,
-          newAmount,
-          item.valueDefault
-        ),
+        value: calculateValuesOfCoffeForItem(newAmount, item.valueDefault),
         deliveryValue: calculateValuesOfCoffeForItem(
-          increase,
           newAmount,
           item.deliveryValueDefault
         ),
@@ -41,7 +36,6 @@ const updateListOfCoffeToBuy = (
 };
 
 const calculateValuesOfCoffeForItem = (
-  multiply: boolean,
   amount: number,
   currencyValue: string
 ) => {
@@ -52,9 +46,7 @@ const calculateValuesOfCoffeForItem = (
       .replace(/\./g, "")
       .replace(",", ".");
 
-    const addValue = multiply
-      ? evaluate(`${numericFormatValue} * ${amount}`)
-      : evaluate(`${numericFormatValue}`);
+    const addValue = evaluate(`${numericFormatValue} * ${amount}`);
 
     const formatador = new Intl.NumberFormat("pt-BR", {
       style: "currency",
