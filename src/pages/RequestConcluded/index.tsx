@@ -1,20 +1,34 @@
 import { useContext } from "react";
 import { CurrencyDollarSimple, MapPin, Timer } from "@phosphor-icons/react";
-import { CoffesAddedToCartContext } from "../../context/coffesAddedToCart";
+import { CoffesAddedToCartContext } from "../../context/coffesAddedContext";
 import {
-  GuidanceResquest,
-  IconAndTextsInfos,
+  TextInfo,
   IconCard,
   InforMark,
+  GuidanceResquest,
+  IconAndTextsInfos,
   OrderInfosOfRequest,
   OrderTitleAndSubTitle,
-  SubTitleOfConcluidedOrder,
-  TextInfo,
   TitleOfConcluidedOrder,
+  SubTitleOfConcluidedOrder,
 } from "./sytle";
 
 export function RequestConcluded() {
   const { orderResquetfinish } = useContext(CoffesAddedToCartContext);
+
+  const nameofFieldContainsStreet = /(^|\s)(r\.?|rua|roa|rwa)(\s|$)/i;
+
+  const nameOfStreet = nameofFieldContainsStreet.test(
+    orderResquetfinish?.orderInfo?.rua
+  )
+    ? orderResquetfinish?.orderInfo?.rua
+    : "Rua " + orderResquetfinish?.orderInfo?.rua;
+
+  const haveComplement =
+    orderResquetfinish?.orderInfo?.complemento != ""
+      ? orderResquetfinish?.orderInfo?.complemento + ","
+      : "";
+
   return (
     <GuidanceResquest>
       <OrderTitleAndSubTitle>
@@ -30,11 +44,12 @@ export function RequestConcluded() {
             <TextInfo>
               Entrega em{" "}
               <InforMark>
-                {orderResquetfinish?.orderInfo?.rua}, {orderResquetfinish?.orderInfo?.numero}
+                {nameOfStreet}, {orderResquetfinish?.orderInfo?.numero}
               </InforMark>
-               <br />
-              {orderResquetfinish?.orderInfo?.bairro}{" "}
-              - {orderResquetfinish?.orderInfo?.cidade}, {orderResquetfinish?.orderInfo?.UF}
+              <br />
+              {haveComplement} {orderResquetfinish?.orderInfo?.bairro} -{" "}
+              {orderResquetfinish?.orderInfo?.cidade},{" "}
+              {orderResquetfinish?.orderInfo?.UF}
             </TextInfo>
           </IconAndTextsInfos>
           <IconAndTextsInfos>
@@ -54,7 +69,9 @@ export function RequestConcluded() {
             <TextInfo>
               Pagamento na entrega
               <br />
-              <InforMark>{orderResquetfinish?.orderInfo?.modo_pagamento}</InforMark>
+              <InforMark>
+                {orderResquetfinish?.orderInfo?.modo_pagamento}
+              </InforMark>
             </TextInfo>
           </IconAndTextsInfos>
         </OrderInfosOfRequest>
