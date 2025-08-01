@@ -1,3 +1,5 @@
+import { CardMenuForSell } from "./sytle";
+
 import { CoffeList } from "../../Types/coffe";
 
 import CoffeIntro from "./components/CoffeIntro";
@@ -5,48 +7,44 @@ import { CoffeeListToSell } from "./components/CoffeeListToSell";
 
 import { listDefaultItensToSell } from "./listDefaultItensToSell";
 
+import { updateListOfCoffeToBuy } from "../../Operations";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { CoffesAddedToCartContext } from "../../context/coffesAddedToCart";
 
-import {
-  CalculateValuesOfCoffeForItem,
-  CalculateValuesDeliveryOfCoffeForItem,
-} from "../../Operations";
-
-import {
-  TitleOfOptions,
-  CardMenuForSell,
-  CardTitleOfOptionsCoffesList,
-} from "./sytle";
+import { CoffesAddedToCartContext } from "../../context/coffesAddedContext";
 
 function LagoutDefault() {
   const [coffesListState, setCoffesList] = useState<CoffeList[]>(
     listDefaultItensToSell
   );
 
-  const { addedSelectedCoffeesToCart, lisItensOfOrder } = useContext(
+  const { addedSelectedCoffeesToCart, coffesAndPaymentCurrent } = useContext(
     CoffesAddedToCartContext
   );
 
   useEffect(() => {
     try {
-      if (lisItensOfOrder?.CoffeesInTheCart?.length > 0) {
-        setCoffesList((ListOfcoffes) => {
-          return ListOfcoffes.map((coffe) => {
-            const isThisCoffeAddToOrder = lisItensOfOrder?.CoffeesInTheCart.find(
-              (coffeMarkAsSelected) => coffeMarkAsSelected.id === coffe.id
+      setCoffesList((ListOfcoffes) => {
+        return ListOfcoffes.map((coffe) => {
+          if (!coffesAndPaymentCurrent.CoffeesInTheCart) return coffe;
+
+          const coffeSaveAsSelected =
+            coffesAndPaymentCurrent.CoffeesInTheCart.find(
+              (select) =>
+                select.is_selected == true && coffe.title == select.title
             );
-            return isThisCoffeAddToOrder ? isThisCoffeAddToOrder : coffe;
-          });
+
+          const optionsOfCoffesCurrent = coffeSaveAsSelected ?? coffe;
+
+          return optionsOfCoffesCurrent;
         });
-      }
+      });
     } catch (error) {
-      console.log(
-        "Error when trying to update list of coffees added to purchase: ",
+      console.error(
+        "Error when trying to update list of coffees added to purchase:",
         error
       );
     }
-  }, [lisItensOfOrder]);
+  }, [coffesAndPaymentCurrent, coffesAndPaymentCurrent.CoffeesInTheCart]);
 
   const addCoffeeToPurchaseAndMarkAsSelected = useCallback(
     (idCoffeSelected: string) => {
@@ -78,27 +76,13 @@ function LagoutDefault() {
     (idCoffeSelected: string, increase: boolean) => {
       try {
         setCoffesList((ListOfcoffes) => {
-          const newList = ListOfcoffes.map((item) => {
-            if (item.id !== idCoffeSelected) return item;
+          const dados = updateListOfCoffeToBuy(
+            ListOfcoffes,
+            idCoffeSelected,
+            increase
+          );
 
-            let newAmount = increase ? item.amount + 1 : item.amount - 1;
-            if (newAmount <= 0) newAmount = 1;
-
-            return {
-              ...item,
-              amount: newAmount,
-              value: CalculateValuesOfCoffeForItem(
-                { ...item, amount: newAmount },
-                true
-              ),
-              deliveryValue: CalculateValuesDeliveryOfCoffeForItem(
-                { ...item, amount: newAmount },
-                true
-              ),
-            };
-          });
-
-          return newList;
+          return dados.CoffeesInTheCart;
         });
       } catch (error) {
         console.log("Error on function updateCoffeListItem: ", error);
@@ -110,9 +94,6 @@ function LagoutDefault() {
   return (
     <>
       <CoffeIntro />
-      <CardTitleOfOptionsCoffesList>
-        <TitleOfOptions>Nossos Cafés</TitleOfOptions>
-      </CardTitleOfOptionsCoffesList>
       <CardMenuForSell>
         {coffesListState.map((coffe) => {
           return (

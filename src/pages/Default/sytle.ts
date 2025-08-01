@@ -113,7 +113,10 @@ export const OptionOfMenu = styled.div.withConfig({
   align-items: center;
   gap: 18px;
   border-radius: 8px 40px 8px 40px;
-  background-color: ${(props) => props.theme["gray-200"]};
+  color: ${(props) =>
+    props.optionSelected ? props.theme["gray-100"] : ""};
+  background-color: ${(props) =>
+    props.optionSelected ? props.theme["yellow-200"] : props.theme["gray-200"]};
   opacity: ${(props) => (props.optionSelected ? 0.6 : 1)};
   pointer-events: ${(props) => (props.optionSelected ? "none" : "auto")};
   flex-shrink: 0;
@@ -193,7 +196,7 @@ export const ValueOfCoffeCurrent = styled.span`
 `;
 
 export const PriceContainerOnCoffee = styled.h6.withConfig({
-  shouldForwardProp: (prop) => prop !== 'background' && prop !== 'color',
+  shouldForwardProp: (prop) => prop !== "background" && prop !== "color",
 })<propsPriceContainerOnCoffee>`
   display: flex;
   flex-direction: row;
@@ -305,6 +308,7 @@ export const ButtonAddAmountPlus = styled.button`
   font-size: 20px;
   color: ${(props) => props.theme["purple-300"]};
   background: transparent;
+  outline: none;
   border: none;
   cursor: pointer;
   padding: 4px;
@@ -314,23 +318,32 @@ export const ButtonAddAmountPlus = styled.button`
     transform: scale(0.95);
     background: ${(props) => props.theme["gray-500"]};
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  }
 
-    .TextAddAmount {
-      color: "red";
-    }
+  &:focus-visible {
+    transform: scale(0.95);
+    background: ${(props) => props.theme["gray-500"]};
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   }
 `;
 export const ButtonAddAmountNegative = styled.button`
   font-family: "Roboto", sans-serif;
-  font-size: 20px;
+  font-size: 25px;
   color: ${(props) => props.theme["purple-300"]};
   background: transparent;
+  outline: none;
   border: none;
   cursor: pointer;
   padding: 4px;
   width: fit-content;
   border-radius: 5px;
   &:active {
+    transform: scale(0.95);
+    background: ${(props) => props.theme["gray-500"]};
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus-visible {
     transform: scale(0.95);
     background: ${(props) => props.theme["gray-500"]};
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
