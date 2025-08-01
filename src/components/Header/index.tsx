@@ -1,7 +1,9 @@
 import Logo from "../../assets/logo.png";
-import { NavLink, Outlet } from "react-router-dom";
 import { MapPin } from "@phosphor-icons/react";
+import { ShoppingButton } from "./ShoppingButton";
+import { NavLink, Outlet } from "react-router-dom";
 import { defaultTheme } from "../../../sytles/themes/default";
+
 import {
   BackgroundHeader,
   CardInfoHeader,
@@ -9,7 +11,6 @@ import {
   Boxaddress,
   TextNameAndStateAcronym,
 } from "./style";
-import { ShoppingButton } from "./ShoppingButton";
 
 function Header() {
   return (
